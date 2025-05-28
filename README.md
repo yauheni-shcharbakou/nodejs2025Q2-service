@@ -7,8 +7,9 @@
 
 ## Downloading
 
-```
-git clone {repository URL}
+```bash
+git clone git@github.com:yauheni-shcharbakou/nodejs2025Q2-service.git // for SSH
+git clone https://github.com/yauheni-shcharbakou/nodejs2025Q2-service.git // for HTTPS
 ```
 
 ## Installing NPM modules
