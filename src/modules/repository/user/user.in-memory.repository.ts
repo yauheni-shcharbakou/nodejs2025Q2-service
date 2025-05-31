@@ -43,6 +43,8 @@ export class UserInMemoryRepository implements IUserRepository {
     }
 
     user.password = data.newPassword;
+    user.updatedAt = Date.now();
+    user.version += 1;
     return user;
   }
 
