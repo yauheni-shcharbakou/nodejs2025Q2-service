@@ -4,26 +4,17 @@ import {
   ITrackCreate,
   ITrackUpdate,
 } from '../../interfaces/track.interface';
+import { BaseService } from '../../services/base.service';
 import { TRACK_REPOSITORY } from '../repository/track/track.repository.constants';
 import { ITrackRepository } from '../repository/track/track.repository.interface';
 
 @Injectable()
-export class TrackService {
+export class TrackService extends BaseService<ITrack, ITrackCreate> {
   constructor(
     @Inject(TRACK_REPOSITORY)
-    private readonly trackRepository: ITrackRepository,
-  ) {}
-
-  async findAll(): Promise<ITrack[]> {
-    return this.trackRepository.findAll();
-  }
-
-  async findById(id: string): Promise<ITrack | undefined> {
-    return this.trackRepository.findById(id);
-  }
-
-  async create(data: ITrackCreate): Promise<ITrack> {
-    return this.trackRepository.create(data);
+    protected readonly repository: ITrackRepository,
+  ) {
+    super();
   }
 
   async updateById(id: string, data: ITrackUpdate) {
@@ -31,18 +22,14 @@ export class TrackService {
       notFound: false,
     };
 
-    const track = await this.trackRepository.findById(id);
+    const track = await this.repository.findById(id);
 
     if (!track) {
       errors.notFound = true;
       return { errors };
     }
 
-    const updatedTrack = await this.trackRepository.updateById(track.id, data);
+    const updatedTrack = await this.repository.updateById(track.id, data);
     return { errors, updatedTrack };
-  }
-
-  async deleteById(id: string): Promise<boolean> {
-    return this.trackRepository.deleteById(id);
   }
 }

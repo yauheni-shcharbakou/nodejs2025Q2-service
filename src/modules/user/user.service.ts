@@ -4,25 +4,16 @@ import {
   IUserCreate,
   IUserUpdatePassword,
 } from '../../interfaces/user.interface';
+import { BaseService } from '../../services/base.service';
 import { USER_REPOSITORY } from '../repository/user/user.repository.constants';
 import { IUserRepository } from '../repository/user/user.repository.interface';
 
 @Injectable()
-export class UserService {
+export class UserService extends BaseService<IUser, IUserCreate> {
   constructor(
-    @Inject(USER_REPOSITORY) private readonly userRepository: IUserRepository,
-  ) {}
-
-  async findAll(): Promise<IUser[]> {
-    return this.userRepository.findAll();
-  }
-
-  async findById(id: string): Promise<IUser | undefined> {
-    return this.userRepository.findById(id);
-  }
-
-  async create(data: IUserCreate): Promise<IUser> {
-    return this.userRepository.create(data);
+    @Inject(USER_REPOSITORY) protected readonly repository: IUserRepository,
+  ) {
+    super();
   }
 
   async updatePassword(id: string, data: IUserUpdatePassword) {
@@ -31,7 +22,7 @@ export class UserService {
       invalidPassword: false,
     };
 
-    const user = await this.userRepository.findById(id);
+    const user = await this.repository.findById(id);
 
     if (!user) {
       errors.notFound = true;
@@ -43,14 +34,10 @@ export class UserService {
       return { errors };
     }
 
-    const updatedUser = await this.userRepository.updateById(user.id, {
+    const updatedUser = await this.repository.updateById(user.id, {
       password: data.newPassword,
     });
 
     return { errors, updatedUser };
-  }
-
-  async deleteById(id: string): Promise<boolean> {
-    return this.userRepository.deleteById(id);
   }
 }
