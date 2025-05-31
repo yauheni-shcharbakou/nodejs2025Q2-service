@@ -16,7 +16,27 @@ type ResponseData = {
 
 @Catch()
 export class AppExceptionFilter implements ExceptionFilter {
-  constructor() {}
+  private parseExceptionMessage(exception: Error): string {
+    if (!(exception instanceof HttpException)) {
+      return exception.message;
+    }
+
+    const response = exception.getResponse();
+
+    if (typeof response !== 'object') {
+      return response;
+    }
+
+    if (typeof response['message'] === 'string') {
+      return response['message'];
+    }
+
+    if (Array.isArray(response['message'])) {
+      return response['message'].join(', ');
+    }
+
+    return 'Unknown exception';
+  }
 
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -27,15 +47,11 @@ export class AppExceptionFilter implements ExceptionFilter {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       timestamp: new Date().toISOString(),
       path: request.url,
-      message: exception.message,
+      message: this.parseExceptionMessage(exception),
     };
 
     if (exception instanceof HttpException) {
       responseData.statusCode = exception.getStatus();
-      responseData.message = exception.getResponse();
-
-      response.status(responseData.statusCode).json(responseData);
-      return;
     }
 
     response.status(responseData.statusCode).json(responseData);
