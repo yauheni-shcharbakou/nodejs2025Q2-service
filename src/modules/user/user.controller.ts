@@ -23,8 +23,8 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async findMany(): Promise<UserDto[]> {
-    const result = await this.userService.findMany();
+  async findAll(): Promise<UserDto[]> {
+    const result = await this.userService.findAll();
     return result.map((user) => plainToInstance(UserDto, user));
   }
 

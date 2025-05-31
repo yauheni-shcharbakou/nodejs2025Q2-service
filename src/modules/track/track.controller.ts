@@ -21,8 +21,8 @@ export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 
   @Get()
-  async findMany(): Promise<TrackDto[]> {
-    const result = await this.trackService.findMany();
+  async findAll(): Promise<TrackDto[]> {
+    const result = await this.trackService.findAll();
     return result.map((track) => plainToInstance(TrackDto, track));
   }
 

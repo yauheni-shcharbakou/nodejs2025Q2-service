@@ -14,8 +14,8 @@ export class TrackService {
     private readonly trackRepository: ITrackRepository,
   ) {}
 
-  async findMany(): Promise<ITrack[]> {
-    return this.trackRepository.findMany();
+  async findAll(): Promise<ITrack[]> {
+    return this.trackRepository.findAll();
   }
 
   async findById(id: string): Promise<ITrack | undefined> {

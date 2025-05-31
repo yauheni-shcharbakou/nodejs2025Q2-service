@@ -13,8 +13,8 @@ export class UserService {
     @Inject(USER_REPOSITORY) private readonly userRepository: IUserRepository,
   ) {}
 
-  async findMany(): Promise<IUser[]> {
-    return this.userRepository.findMany();
+  async findAll(): Promise<IUser[]> {
+    return this.userRepository.findAll();
   }
 
   async findById(id: string): Promise<IUser | undefined> {
@@ -38,12 +38,14 @@ export class UserService {
       return { errors };
     }
 
-    const updatedUser = await this.userRepository.updatePassword(user, data);
-
-    if (!updatedUser) {
+    if (user.password !== data.oldPassword) {
       errors.invalidPassword = true;
-      return { errors, updatedUser };
+      return { errors };
     }
+
+    const updatedUser = await this.userRepository.updateById(user.id, {
+      password: data.newPassword,
+    });
 
     return { errors, updatedUser };
   }
