@@ -25,7 +25,7 @@ export class UserInMemoryRepository implements IUserRepository {
     const user: IUser = {
       ...data,
       id: randomUUID(),
-      version: 0,
+      version: 1,
       createdAt: currentTimestamp,
       updatedAt: currentTimestamp,
     };

@@ -1,8 +1,8 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   HttpCode,
   HttpStatus,
@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { UserCreateDto } from './dto/user.create.dto';
-import { UserPublicDto } from './dto/user.public.dto';
+import { UserDto } from './dto/user.dto';
 import { UserUpdatePasswordDto } from './dto/user.update-password.dto';
 import { UserService } from './user.service';
 import { plainToInstance } from 'class-transformer';
@@ -23,35 +23,33 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async findMany(): Promise<UserPublicDto[]> {
+  async findMany(): Promise<UserDto[]> {
     const result = await this.userService.findMany();
-    return result.map((user) => plainToInstance(UserPublicDto, user));
+    return result.map((user) => plainToInstance(UserDto, user));
   }
 
   @Get(':id')
-  async findByIdOrException(
-    @Param() params: IdFieldDto,
-  ): Promise<UserPublicDto> {
+  async findByIdOrException(@Param() params: IdFieldDto): Promise<UserDto> {
     const user = await this.userService.findById(params.id);
 
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    return plainToInstance(UserPublicDto, user);
+    return plainToInstance(UserDto, user);
   }
 
   @Post()
-  async create(@Body() body: UserCreateDto): Promise<UserPublicDto> {
+  async create(@Body() body: UserCreateDto): Promise<UserDto> {
     const user = await this.userService.create(body);
-    return plainToInstance(UserPublicDto, user);
+    return plainToInstance(UserDto, user);
   }
 
   @Put(':id')
   async updateByIdOrException(
     @Param() params: IdFieldDto,
     @Body() body: UserUpdatePasswordDto,
-  ): Promise<UserPublicDto> {
+  ): Promise<UserDto> {
     const { errors, updatedUser } = await this.userService.updatePassword(
       params.id,
       body,
@@ -62,10 +60,10 @@ export class UserController {
     }
 
     if (errors.invalidPassword) {
-      throw new BadRequestException('Invalid password');
+      throw new ForbiddenException('Invalid password');
     }
 
-    return plainToInstance(UserPublicDto, updatedUser);
+    return plainToInstance(UserDto, updatedUser);
   }
 
   @Delete(':id')

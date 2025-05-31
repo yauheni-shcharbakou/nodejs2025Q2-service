@@ -5,7 +5,7 @@ import { ITrackCreate } from '../../../interfaces/track.interface';
 import { TrackDto } from './track.dto';
 
 export class TrackCreateDto
-  extends OmitType(TrackDto, ['albumId', 'artistId'] as const)
+  extends OmitType(TrackDto, ['albumId', 'artistId', 'id'] as const)
   implements ITrackCreate
 {
   @IsOptional()

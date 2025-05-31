@@ -1,8 +1,9 @@
+import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
 import { IdFieldDto } from '../../../dto/id-field.dto';
-import { IUserPublic } from '../../../interfaces/user.interface';
+import { IUser } from '../../../interfaces/user.interface';
 
-export class UserPublicDto extends IdFieldDto implements IUserPublic {
+export class UserDto extends IdFieldDto implements IUser {
   @IsNotEmpty()
   @IsNumber()
   @IsPositive()
@@ -11,6 +12,9 @@ export class UserPublicDto extends IdFieldDto implements IUserPublic {
   @IsNotEmpty()
   @IsString()
   login: string;
+
+  @Exclude()
+  password: string;
 
   @IsNotEmpty()
   @IsNumber()

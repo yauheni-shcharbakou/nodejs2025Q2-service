@@ -23,24 +23,24 @@ export class TrackController {
   @Get()
   async findMany(): Promise<TrackDto[]> {
     const result = await this.trackService.findMany();
-    return result.map((user) => plainToInstance(TrackDto, user));
+    return result.map((track) => plainToInstance(TrackDto, track));
   }
 
   @Get(':id')
   async findByIdOrException(@Param() params: IdFieldDto): Promise<TrackDto> {
-    const user = await this.trackService.findById(params.id);
+    const track = await this.trackService.findById(params.id);
 
-    if (!user) {
+    if (!track) {
       throw new NotFoundException('Track not found');
     }
 
-    return plainToInstance(TrackDto, user);
+    return plainToInstance(TrackDto, track);
   }
 
   @Post()
   async create(@Body() body: TrackCreateDto): Promise<TrackDto> {
-    const user = await this.trackService.create(body);
-    return plainToInstance(TrackDto, user);
+    const track = await this.trackService.create(body);
+    return plainToInstance(TrackDto, track);
   }
 
   @Put(':id')
