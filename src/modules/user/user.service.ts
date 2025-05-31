@@ -26,25 +26,26 @@ export class UserService {
   }
 
   async updatePassword(id: string, data: IUserUpdatePassword) {
-    let notFound = false;
-    let invalidPassword = false;
-    let updatedUser: IUser | undefined = undefined;
+    const errors = {
+      notFound: false,
+      invalidPassword: false,
+    };
 
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      notFound = true;
-      return { notFound, invalidPassword, updatedUser };
+      errors.notFound = true;
+      return { errors };
     }
 
-    updatedUser = await this.userRepository.updatePassword(user, data);
+    const updatedUser = await this.userRepository.updatePassword(user, data);
 
     if (!updatedUser) {
-      invalidPassword = true;
-      return { notFound, invalidPassword, updatedUser };
+      errors.invalidPassword = true;
+      return { errors, updatedUser };
     }
 
-    return { notFound, invalidPassword, updatedUser };
+    return { errors, updatedUser };
   }
 
   async deleteById(id: string): Promise<boolean> {

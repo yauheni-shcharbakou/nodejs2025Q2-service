@@ -52,14 +52,16 @@ export class UserController {
     @Param() params: IdFieldDto,
     @Body() body: UserUpdatePasswordDto,
   ): Promise<UserPublicDto> {
-    const { notFound, invalidPassword, updatedUser } =
-      await this.userService.updatePassword(params.id, body);
+    const { errors, updatedUser } = await this.userService.updatePassword(
+      params.id,
+      body,
+    );
 
-    if (notFound) {
+    if (errors.notFound) {
       throw new NotFoundException('User not found');
     }
 
-    if (invalidPassword) {
+    if (errors.invalidPassword) {
       throw new BadRequestException('Invalid password');
     }
 
