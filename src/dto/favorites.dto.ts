@@ -1,5 +1,10 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsObject, ValidateNested } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsObject,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { AlbumDto } from './album.dto';
 import { ArtistDto } from './artist.dto';
 import { TrackDto } from './track.dto';
@@ -23,4 +28,10 @@ export class FavoritesDto implements IFavorites {
   @ValidateNested({ each: true })
   @Type(() => TrackDto)
   tracks: TrackDto[];
+}
+
+export class FavoritesAddResultDto {
+  @IsNotEmpty()
+  @IsString()
+  message: string;
 }

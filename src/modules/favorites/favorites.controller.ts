@@ -10,8 +10,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { IdFieldDto } from '../../dto/id-field.dto';
-import { FavoritesDto } from '../../dto/favorites.dto';
-import { OkResponseDto } from '../../dto/ok.response.dto';
+import { FavoritesAddResultDto, FavoritesDto } from '../../dto/favorites.dto';
 import { FavoritesService } from './favorites.service';
 import { plainToInstance } from 'class-transformer';
 
@@ -26,14 +25,16 @@ export class FavoritesController {
   }
 
   @Post('album/:id')
-  async addAlbum(@Param() params: IdFieldDto): Promise<OkResponseDto> {
+  async addAlbum(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
     const result = await this.favoritesService.addAlbum(params.id);
 
     if (!result) {
       throw new UnprocessableEntityException('Album not found');
     }
 
-    return plainToInstance(OkResponseDto, { ok: true });
+    return plainToInstance(FavoritesAddResultDto, {
+      message: 'Album added to favorites',
+    });
   }
 
   @Delete('album/:id')
@@ -47,14 +48,16 @@ export class FavoritesController {
   }
 
   @Post('artist/:id')
-  async addArtist(@Param() params: IdFieldDto): Promise<OkResponseDto> {
+  async addArtist(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
     const result = await this.favoritesService.addArtist(params.id);
 
     if (!result) {
       throw new UnprocessableEntityException('Artist not found');
     }
 
-    return plainToInstance(OkResponseDto, { ok: true });
+    return plainToInstance(FavoritesAddResultDto, {
+      message: 'Artist added to favorites',
+    });
   }
 
   @Delete('artist/:id')
@@ -68,14 +71,16 @@ export class FavoritesController {
   }
 
   @Post('track/:id')
-  async addTrack(@Param() params: IdFieldDto): Promise<OkResponseDto> {
+  async addTrack(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
     const result = await this.favoritesService.addTrack(params.id);
 
     if (!result) {
       throw new UnprocessableEntityException('Track not found');
     }
 
-    return plainToInstance(OkResponseDto, { ok: true });
+    return plainToInstance(FavoritesAddResultDto, {
+      message: 'Track added to favorites',
+    });
   }
 
   @Delete('track/:id')
