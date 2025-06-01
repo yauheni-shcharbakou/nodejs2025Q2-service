@@ -11,7 +11,7 @@ export class AlbumDto extends IdFieldDto implements IAlbum {
   @IsString()
   name: string;
 
-  @ApiProperty({ description: 'Album year' })
+  @ApiProperty({ description: 'Album year', example: 1991 })
   @IsNotEmpty()
   @IsNumber()
   @IsPositive()
