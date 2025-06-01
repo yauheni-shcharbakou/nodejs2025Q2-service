@@ -3,7 +3,7 @@ import { IsOptional } from 'class-validator';
 import { TransformToNullableId } from '../../../decorators/transfrom.decorator';
 import { IsUUIDOrNull } from '../../../decorators/validation.decorator';
 import { ITrackCreate } from '../../../interfaces/track.interface';
-import { TrackDto } from './track.dto';
+import { TrackDto } from '../../../dto/track.dto';
 
 export class TrackCreateDto
   extends OmitType(TrackDto, ['albumId', 'artistId', 'id'] as const)

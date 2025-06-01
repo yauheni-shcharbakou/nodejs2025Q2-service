@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { AlbumCreateDto } from './dto/album.create.dto';
-import { AlbumDto } from './dto/album.dto';
+import { AlbumDto } from '../../dto/album.dto';
 import { AlbumService } from './album.service';
 import { plainToInstance } from 'class-transformer';
 

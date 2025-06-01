@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { UserCreateDto } from './dto/user.create.dto';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from '../../dto/user.dto';
 import { UserUpdatePasswordDto } from './dto/user.update-password.dto';
 import { UserService } from './user.service';
 import { plainToInstance } from 'class-transformer';

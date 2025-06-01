@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
-import { IdFieldDto } from '../../../dto/id-field.dto';
-import { IUser } from '../../../interfaces/user.interface';
+import { IdFieldDto } from './id-field.dto';
+import { IUser } from '../interfaces/user.interface';
 
 export class UserDto extends IdFieldDto implements IUser {
   @IsNotEmpty()

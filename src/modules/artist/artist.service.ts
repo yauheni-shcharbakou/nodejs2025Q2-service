@@ -5,6 +5,8 @@ import { ALBUM_REPOSITORY } from '../repository/album/album.repository.constants
 import { IAlbumRepository } from '../repository/album/album.repository.interface';
 import { ARTIST_REPOSITORY } from '../repository/artist/artist.repository.constants';
 import { IArtistRepository } from '../repository/artist/artist.repository.interface';
+import { FAVORITES_REPOSITORY } from '../repository/favorites/favorites.repository.constants';
+import { IFavoritesRepository } from '../repository/favorites/favorites.repository.interface';
 import { TRACK_REPOSITORY } from '../repository/track/track.repository.constants';
 import { ITrackRepository } from '../repository/track/track.repository.interface';
 
@@ -17,6 +19,8 @@ export class ArtistService extends BaseService<IArtist, IArtistCreate> {
     private readonly trackRepository: ITrackRepository,
     @Inject(ALBUM_REPOSITORY)
     private readonly albumRepository: IAlbumRepository,
+    @Inject(FAVORITES_REPOSITORY)
+    private readonly favoritesRepository: IFavoritesRepository,
   ) {
     super();
   }
@@ -47,6 +51,7 @@ export class ArtistService extends BaseService<IArtist, IArtistCreate> {
     await Promise.all([
       this.trackRepository.updateMany({ artistId: id }, { artistId: null }),
       this.albumRepository.updateMany({ artistId: id }, { artistId: null }),
+      this.favoritesRepository.deleteArtist(id),
     ]);
 
     return result;

@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { ArtistCreateDto } from './dto/artist.create.dto';
-import { ArtistDto } from './dto/artist.dto';
+import { ArtistDto } from '../../dto/artist.dto';
 import { ArtistService } from './artist.service';
 import { plainToInstance } from 'class-transformer';
 

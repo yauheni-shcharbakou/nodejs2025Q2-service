@@ -4,19 +4,19 @@ import { ARTIST_REPOSITORY } from '../repository/artist/artist.repository.consta
 import { FAVORITES_REPOSITORY } from '../repository/favorites/favorites.repository.constants';
 import { RepositoryModule } from '../repository/repository.module';
 import { TRACK_REPOSITORY } from '../repository/track/track.repository.constants';
-import { ArtistController } from './artist.controller';
-import { ArtistService } from './artist.service';
+import { FavoritesController } from './favorites.controller';
+import { FavoritesService } from './favorites.service';
 
 @Module({
   imports: [
     RepositoryModule.forFeature(
-      ARTIST_REPOSITORY,
-      TRACK_REPOSITORY,
-      ALBUM_REPOSITORY,
       FAVORITES_REPOSITORY,
+      ALBUM_REPOSITORY,
+      TRACK_REPOSITORY,
+      ARTIST_REPOSITORY,
     ),
   ],
-  providers: [ArtistService],
-  controllers: [ArtistController],
+  providers: [FavoritesService],
+  controllers: [FavoritesController],
 })
-export class ArtistModule {}
+export class FavoritesModule {}
