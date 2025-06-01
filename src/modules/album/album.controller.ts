@@ -23,24 +23,30 @@ export class AlbumController {
   @Get()
   async findAll(): Promise<AlbumDto[]> {
     const result = await this.albumService.findAll();
-    return result.map((track) => plainToInstance(AlbumDto, track));
+    return result.map((album) => plainToInstance(AlbumDto, album));
   }
 
   @Get(':id')
   async findByIdOrException(@Param() params: IdFieldDto): Promise<AlbumDto> {
-    const track = await this.albumService.findById(params.id);
+    const album = await this.albumService.findById(params.id);
 
-    if (!track) {
+    if (!album) {
       throw new NotFoundException('Album not found');
     }
 
-    return plainToInstance(AlbumDto, track);
+    return plainToInstance(AlbumDto, album);
   }
 
   @Post()
   async create(@Body() body: AlbumCreateDto): Promise<AlbumDto> {
-    const track = await this.albumService.create(body);
-    return plainToInstance(AlbumDto, track);
+    const { errors, createdAlbum } =
+      await this.albumService.validateAndCreate(body);
+
+    if (errors.artistNotFound) {
+      throw new NotFoundException('Artist not found');
+    }
+
+    return plainToInstance(AlbumDto, createdAlbum);
   }
 
   @Put(':id')
@@ -52,6 +58,10 @@ export class AlbumController {
       params.id,
       body,
     );
+
+    if (errors.artistNotFound) {
+      throw new NotFoundException('Artist not found');
+    }
 
     if (errors.albumNotFound) {
       throw new NotFoundException('Album not found');

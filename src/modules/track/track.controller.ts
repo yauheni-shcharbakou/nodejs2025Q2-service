@@ -46,6 +46,10 @@ export class TrackController {
       throw new NotFoundException('Album not found');
     }
 
+    if (errors.artistNotFound) {
+      throw new NotFoundException('Artist not found');
+    }
+
     return plainToInstance(TrackDto, createdTrack);
   }
 
@@ -59,12 +63,16 @@ export class TrackController {
       body,
     );
 
+    if (errors.trackNotFound) {
+      throw new NotFoundException('Track not found');
+    }
+
     if (errors.albumNotFound) {
       throw new NotFoundException('Album not found');
     }
 
-    if (errors.trackNotFound) {
-      throw new NotFoundException('Track not found');
+    if (errors.artistNotFound) {
+      throw new NotFoundException('Artist not found');
     }
 
     return plainToInstance(TrackDto, updatedTrack);

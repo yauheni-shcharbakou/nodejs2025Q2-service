@@ -3,18 +3,18 @@ import { ALBUM_REPOSITORY } from '../repository/album/album.repository.constants
 import { ARTIST_REPOSITORY } from '../repository/artist/artist.repository.constants';
 import { RepositoryModule } from '../repository/repository.module';
 import { TRACK_REPOSITORY } from '../repository/track/track.repository.constants';
-import { AlbumController } from './album.controller';
-import { AlbumService } from './album.service';
+import { ArtistController } from './artist.controller';
+import { ArtistService } from './artist.service';
 
 @Module({
   imports: [
     RepositoryModule.forFeature(
-      ALBUM_REPOSITORY,
-      TRACK_REPOSITORY,
       ARTIST_REPOSITORY,
+      TRACK_REPOSITORY,
+      ALBUM_REPOSITORY,
     ),
   ],
-  providers: [AlbumService],
-  controllers: [AlbumController],
+  providers: [ArtistService],
+  controllers: [ArtistController],
 })
-export class AlbumModule {}
+export class ArtistModule {}

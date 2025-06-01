@@ -19,15 +19,4 @@ export class AlbumInMemoryRepository
     this.entityById.set(album.id, album);
     return album;
   }
-
-  // async updateById(
-  //   id: string,
-  //   data: Partial<IAlbum>,
-  // ): Promise<IAlbum | undefined> {
-  //   return super.updateById(id, (user) => ({
-  //     ...data,
-  //     updatedAt: Date.now(),
-  //     version: user.version + 1,
-  //   }));
-  // }
 }
