@@ -1,4 +1,4 @@
-import { OmitType } from '@nestjs/mapped-types';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { TransformToNullableId } from '../../../decorators/transfrom.decorator';
 import { IsUUIDOrNull } from '../../../decorators/validation.decorator';
@@ -9,6 +9,7 @@ export class AlbumCreateDto
   extends OmitType(AlbumDto, ['id', 'artistId'] as const)
   implements IAlbumCreate
 {
+  @ApiProperty({ required: false, nullable: true })
   @IsOptional()
   @IsUUIDOrNull()
   @TransformToNullableId()

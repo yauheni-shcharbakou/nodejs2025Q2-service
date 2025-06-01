@@ -1,4 +1,4 @@
-import { OmitType } from '@nestjs/mapped-types';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { TransformToNullableId } from '../../../decorators/transfrom.decorator';
 import { IsUUIDOrNull } from '../../../decorators/validation.decorator';
@@ -9,11 +9,13 @@ export class TrackCreateDto
   extends OmitType(TrackDto, ['albumId', 'artistId', 'id'] as const)
   implements ITrackCreate
 {
+  @ApiProperty({ description: 'Artist id', nullable: true, required: false })
   @IsOptional()
   @IsUUIDOrNull()
   @TransformToNullableId()
   artistId: string | null;
 
+  @ApiProperty({ description: 'Album id', nullable: true, required: false })
   @IsOptional()
   @IsUUIDOrNull()
   @TransformToNullableId()

@@ -10,23 +10,40 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { IdFieldDto } from '../../dto/id-field.dto';
-import { AlbumCreateDto } from './dto/album.create.dto';
-import { AlbumDto } from '../../dto/album.dto';
-import { AlbumService } from './album.service';
+import {
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
+import { ApiExceptions } from '../../decorators/swagger.decorator';
+import { AlbumDto } from '../../dto/album.dto';
+import { IdFieldDto } from '../../dto/id-field.dto';
+import { AlbumService } from './album.service';
+import { AlbumCreateDto } from './dto/album.create.dto';
 
+@ApiTags('Album')
 @Controller('album')
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get all albums' })
+  @ApiOkResponse({ description: 'Albums list', type: [AlbumDto] })
   async findAll(): Promise<AlbumDto[]> {
     const result = await this.albumService.findAll();
     return result.map((album) => plainToInstance(AlbumDto, album));
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get album by id' })
+  @ApiOkResponse({ description: 'Album', type: AlbumDto })
+  @ApiExceptions({
+    entityName: 'Album',
+    statusCodes: [HttpStatus.NOT_FOUND, HttpStatus.BAD_REQUEST],
+  })
   async findByIdOrException(@Param() params: IdFieldDto): Promise<AlbumDto> {
     const album = await this.albumService.findById(params.id);
 
@@ -38,6 +55,12 @@ export class AlbumController {
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create album' })
+  @ApiCreatedResponse({ description: 'Album', type: AlbumDto })
+  @ApiExceptions({
+    entityName: 'Artist',
+    statusCodes: [HttpStatus.NOT_FOUND, HttpStatus.BAD_REQUEST],
+  })
   async create(@Body() body: AlbumCreateDto): Promise<AlbumDto> {
     const { errors, createdAlbum } =
       await this.albumService.validateAndCreate(body);
@@ -50,6 +73,11 @@ export class AlbumController {
   }
 
   @Put(':id')
+  @ApiOperation({ summary: 'Update album by id' })
+  @ApiOkResponse({ description: 'Album', type: AlbumDto })
+  @ApiExceptions({
+    statusCodes: [HttpStatus.NOT_FOUND, HttpStatus.BAD_REQUEST],
+  })
   async updateByIdOrException(
     @Param() params: IdFieldDto,
     @Body() body: AlbumCreateDto,
@@ -72,6 +100,12 @@ export class AlbumController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete album by id' })
+  @ApiNoContentResponse({ description: 'Success request' })
+  @ApiExceptions({
+    entityName: 'Album',
+    statusCodes: [HttpStatus.NOT_FOUND, HttpStatus.BAD_REQUEST],
+  })
   async deleteByIdOrException(@Param() params: IdFieldDto): Promise<void> {
     const result = await this.albumService.deleteById(params.id);
 

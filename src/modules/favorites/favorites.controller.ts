@@ -9,22 +9,42 @@ import {
   Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import {
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { FavoritesAddResultDto, FavoritesDto } from '../../dto/favorites.dto';
 import { FavoritesService } from './favorites.service';
 import { plainToInstance } from 'class-transformer';
 
+@ApiTags('Favorites')
 @Controller('favs')
 export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
   @Get()
+  @ApiOperation({ summary: 'Get favorites' })
+  @ApiOkResponse({ description: 'Favorites', type: FavoritesDto })
   async find(): Promise<FavoritesDto> {
     const result = await this.favoritesService.find();
     return plainToInstance(FavoritesDto, result);
   }
 
   @Post('album/:id')
+  @ApiOperation({ summary: 'Add album to favorites by id' })
+  @ApiCreatedResponse({
+    description: 'Success response',
+    type: FavoritesAddResultDto,
+  })
+  @ApiExceptions({
+    entityName: 'Album',
+    statusCodes: [HttpStatus.UNPROCESSABLE_ENTITY, HttpStatus.BAD_REQUEST],
+  })
   async addAlbum(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
     const result = await this.favoritesService.addAlbum(params.id);
 
@@ -39,6 +59,12 @@ export class FavoritesController {
 
   @Delete('album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete album from favorites by id' })
+  @ApiNoContentResponse({ description: 'Success response' })
+  @ApiExceptions({
+    entityName: 'Album',
+    statusCodes: [HttpStatus.NOT_FOUND, HttpStatus.BAD_REQUEST],
+  })
   async deleteAlbum(@Param() params: IdFieldDto): Promise<void> {
     const result = await this.favoritesService.deleteAlbum(params.id);
 
@@ -48,6 +74,15 @@ export class FavoritesController {
   }
 
   @Post('artist/:id')
+  @ApiOperation({ summary: 'Add artist to favorites by id' })
+  @ApiCreatedResponse({
+    description: 'Success response',
+    type: FavoritesAddResultDto,
+  })
+  @ApiExceptions({
+    entityName: 'Artist',
+    statusCodes: [HttpStatus.UNPROCESSABLE_ENTITY, HttpStatus.BAD_REQUEST],
+  })
   async addArtist(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
     const result = await this.favoritesService.addArtist(params.id);
 
@@ -62,6 +97,12 @@ export class FavoritesController {
 
   @Delete('artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete artist from favorites by id' })
+  @ApiNoContentResponse({ description: 'Success response' })
+  @ApiExceptions({
+    entityName: 'Artist',
+    statusCodes: [HttpStatus.NOT_FOUND, HttpStatus.BAD_REQUEST],
+  })
   async deleteArtist(@Param() params: IdFieldDto): Promise<void> {
     const result = await this.favoritesService.deleteArtist(params.id);
 
@@ -71,6 +112,15 @@ export class FavoritesController {
   }
 
   @Post('track/:id')
+  @ApiOperation({ summary: 'Add track to favorites by id' })
+  @ApiCreatedResponse({
+    description: 'Success response',
+    type: FavoritesAddResultDto,
+  })
+  @ApiExceptions({
+    entityName: 'Track',
+    statusCodes: [HttpStatus.UNPROCESSABLE_ENTITY, HttpStatus.BAD_REQUEST],
+  })
   async addTrack(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
     const result = await this.favoritesService.addTrack(params.id);
 
@@ -85,6 +135,12 @@ export class FavoritesController {
 
   @Delete('track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete track from favorites by id' })
+  @ApiNoContentResponse({ description: 'Success response' })
+  @ApiExceptions({
+    entityName: 'Track',
+    statusCodes: [HttpStatus.NOT_FOUND, HttpStatus.BAD_REQUEST],
+  })
   async deleteTrack(@Param() params: IdFieldDto): Promise<void> {
     const result = await this.favoritesService.deleteTrack(params.id);
 

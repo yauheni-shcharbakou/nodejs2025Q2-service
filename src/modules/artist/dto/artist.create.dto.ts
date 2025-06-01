@@ -1,4 +1,4 @@
-import { OmitType } from '@nestjs/mapped-types';
+import { OmitType } from '@nestjs/swagger';
 import { IArtistCreate } from '../../../interfaces/artist.interface';
 import { ArtistDto } from '../../../dto/artist.dto';
 
