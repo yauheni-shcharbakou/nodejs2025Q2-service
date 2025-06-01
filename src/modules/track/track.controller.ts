@@ -39,8 +39,14 @@ export class TrackController {
 
   @Post()
   async create(@Body() body: TrackCreateDto): Promise<TrackDto> {
-    const track = await this.trackService.create(body);
-    return plainToInstance(TrackDto, track);
+    const { errors, createdTrack } =
+      await this.trackService.validateAndCreate(body);
+
+    if (errors.albumNotFound) {
+      throw new NotFoundException('Album not found');
+    }
+
+    return plainToInstance(TrackDto, createdTrack);
   }
 
   @Put(':id')
@@ -53,7 +59,11 @@ export class TrackController {
       body,
     );
 
-    if (errors.notFound) {
+    if (errors.albumNotFound) {
+      throw new NotFoundException('Album not found');
+    }
+
+    if (errors.trackNotFound) {
       throw new NotFoundException('Track not found');
     }
 

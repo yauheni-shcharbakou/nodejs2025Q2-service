@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import {
-  ITrack,
-  ITrackCreate,
-  ITrackUpdate,
-} from '../../../interfaces/track.interface';
+import { ITrack, ITrackCreate } from '../../../interfaces/track.interface';
 import { BaseInMemoryRepository } from '../base/base.in-memory.repository';
 import { ITrackRepository } from './track.repository.interface';
 import { randomUUID } from 'crypto';
 
 @Injectable()
 export class TrackInMemoryRepository
-  extends BaseInMemoryRepository<ITrack, ITrackCreate, ITrackUpdate>
+  extends BaseInMemoryRepository<ITrack, ITrackCreate>
   implements ITrackRepository
 {
   async create(data: ITrackCreate): Promise<ITrack> {

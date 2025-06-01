@@ -4,6 +4,8 @@ import {
   InternalServerErrorException,
   Type,
 } from '@nestjs/common';
+import { ALBUM_REPOSITORY } from './album/album.repository.constants';
+import { AlbumRepositoryModule } from './album/album.repository.module';
 import { TRACK_REPOSITORY } from './track/track.repository.constants';
 import { TrackRepositoryModule } from './track/track.repository.module';
 import { USER_REPOSITORY } from './user/user.repository.constants';
@@ -13,6 +15,7 @@ export class RepositoryModule {
   private static readonly moduleById = new Map<InjectionToken, Type>([
     [USER_REPOSITORY, UserRepositoryModule],
     [TRACK_REPOSITORY, TrackRepositoryModule],
+    [ALBUM_REPOSITORY, AlbumRepositoryModule],
   ]);
 
   static forFeature(

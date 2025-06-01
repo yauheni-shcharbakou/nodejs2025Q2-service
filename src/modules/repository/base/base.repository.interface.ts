@@ -5,6 +5,7 @@ export interface IBaseRepository<
   Create extends object = Partial<Entity>,
   Update extends object = Partial<Entity>,
 > {
+  existsById(id: string): Promise<boolean>;
   findAll(): Promise<Entity[]>;
   findById(id: string): Promise<Entity | undefined>;
   create(data: Create): Promise<Entity>;
@@ -12,5 +13,6 @@ export interface IBaseRepository<
     id: string,
     updateData: Update | ((entity: Entity) => Update),
   ): Promise<Entity | undefined>;
+  updateMany(filter: Partial<Entity>, updateData: Update): Promise<void>;
   deleteById(id: string): Promise<boolean>;
 }

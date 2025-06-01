@@ -11,6 +11,10 @@ export abstract class BaseInMemoryRepository<
 
   abstract create(data: Create): Promise<Entity>;
 
+  async existsById(id: string): Promise<boolean> {
+    return this.entityById.has(id);
+  }
+
   async findAll(): Promise<Entity[]> {
     return Array.from(this.entityById.values());
   }
@@ -31,6 +35,23 @@ export abstract class BaseInMemoryRepository<
 
     const updateData = typeof data === 'function' ? data(entity) : data;
     return Object.assign(entity, updateData);
+  }
+
+  async updateMany(filter: Partial<Entity>, updateData: Update): Promise<void> {
+    const entities = await this.findAll();
+    const filterKeys = Object.keys(filter);
+
+    entities.forEach((entity) => {
+      const isValidEntity = filterKeys.every((key) => {
+        return entity[key] === filter[key];
+      });
+
+      if (!isValidEntity) {
+        return;
+      }
+
+      Object.assign(entity, updateData);
+    });
   }
 
   async deleteById(id: string): Promise<boolean> {

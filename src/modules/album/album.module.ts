@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { ALBUM_REPOSITORY } from '../repository/album/album.repository.constants';
 import { RepositoryModule } from '../repository/repository.module';
 import { TRACK_REPOSITORY } from '../repository/track/track.repository.constants';
-import { TrackController } from './track.controller';
-import { TrackService } from './track.service';
+import { AlbumController } from './album.controller';
+import { AlbumService } from './album.service';
 
 @Module({
-  imports: [RepositoryModule.forFeature(TRACK_REPOSITORY, ALBUM_REPOSITORY)],
-  providers: [TrackService],
-  controllers: [TrackController],
+  imports: [RepositoryModule.forFeature(ALBUM_REPOSITORY, TRACK_REPOSITORY)],
+  providers: [AlbumService],
+  controllers: [AlbumController],
 })
-export class TrackModule {}
+export class AlbumModule {}

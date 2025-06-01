@@ -7,8 +7,4 @@ export interface ITrack extends IIdField {
   duration: number;
 }
 
-export interface ITrackCreate
-  extends Pick<ITrack, 'name' | 'duration'>,
-    Partial<Pick<ITrack, 'albumId' | 'artistId'>> {}
-
-export interface ITrackUpdate extends ITrackCreate {}
+export interface ITrackCreate extends Omit<ITrack, 'id'> {}

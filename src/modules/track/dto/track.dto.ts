@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { IsUUIDOrNull } from '../../../decorators/dto.decorator';
+import { TransformToNullableId } from '../../../decorators/transfrom.decorator';
+import { IsUUIDOrNull } from '../../../decorators/validation.decorator';
 import { IdFieldDto } from '../../../dto/id-field.dto';
 import { ITrack } from '../../../interfaces/track.interface';
 
@@ -9,9 +10,11 @@ export class TrackDto extends IdFieldDto implements ITrack {
   name: string;
 
   @IsUUIDOrNull()
+  @TransformToNullableId()
   artistId: string | null;
 
   @IsUUIDOrNull()
+  @TransformToNullableId()
   albumId: string | null;
 
   @IsNotEmpty()
