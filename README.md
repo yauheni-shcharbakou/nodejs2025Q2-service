@@ -42,6 +42,10 @@ npm run test -- tracks.e2e.spec.ts
 npm run test -- artists.e2e.spec.ts
 npm run test -- albums.e2e.spec.ts
 npm run test -- favorites.e2e.spec.ts
+
+// or
+
+npm run test
 ```
 
 To run all tests without authorization
