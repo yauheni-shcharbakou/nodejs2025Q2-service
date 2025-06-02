@@ -70,6 +70,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '200':
@@ -101,6 +102,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       requestBody:
         required: true
@@ -138,6 +140,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '204':
@@ -207,6 +210,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '200':
@@ -238,6 +242,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       requestBody:
         required: true
@@ -275,6 +280,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '204':
@@ -317,6 +323,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '201':
@@ -348,6 +355,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '204':
@@ -376,6 +384,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '201':
@@ -407,6 +416,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '204':
@@ -435,6 +445,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '201':
@@ -466,6 +477,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '204':
@@ -541,6 +553,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '200':
@@ -572,6 +585,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       requestBody:
         required: true
@@ -609,6 +623,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '204':
@@ -678,6 +693,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '200':
@@ -709,6 +725,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       requestBody:
         required: true
@@ -752,6 +769,7 @@ paths:
           in: path
           description: UUID field
           schema:
+            format: uuid
             type: string
       responses:
         '204':
@@ -778,7 +796,7 @@ info:
   contact: {}
 tags: []
 servers:
-  - url: http://localhost:4000
+  - url: http://localhost:8080
 components:
   schemas:
     AlbumDto:
@@ -787,6 +805,7 @@ components:
         id:
           type: string
           description: UUID field
+          format: uuid
         name:
           type: string
           description: Album name
@@ -794,15 +813,68 @@ components:
           type: number
           description: Album year, should be positive
           example: 1991
+          format: int32
         artistId:
           type: string
           description: Artist id
           nullable: true
+          format: uuid
       required:
         - id
         - name
         - year
         - artistId
+    HttpStatus:
+      type: number
+      enum:
+        - 100
+        - 101
+        - 102
+        - 103
+        - 200
+        - 201
+        - 202
+        - 203
+        - 204
+        - 205
+        - 206
+        - 300
+        - 301
+        - 302
+        - 303
+        - 304
+        - 307
+        - 308
+        - 400
+        - 401
+        - 402
+        - 403
+        - 404
+        - 405
+        - 406
+        - 407
+        - 408
+        - 409
+        - 410
+        - 411
+        - 412
+        - 413
+        - 414
+        - 415
+        - 416
+        - 417
+        - 418
+        - 421
+        - 422
+        - 424
+        - 428
+        - 429
+        - 500
+        - 501
+        - 502
+        - 503
+        - 504
+        - 505
     ExceptionResponseDto:
       type: object
       properties:
@@ -819,9 +891,10 @@ components:
           type: string
           description: Exception timestamp
         statusCode:
-          type: number
           description: Exception status code
           example: 404
+          allOf:
+            - $ref: '#/components/schemas/HttpStatus'
       required:
         - message
         - path
@@ -837,9 +910,11 @@ components:
           type: number
           description: Album year, should be positive
           example: 1991
+          format: int32
         artistId:
           type: string
           nullable: true
+          format: uuid
       required:
         - name
         - year
@@ -849,6 +924,7 @@ components:
         id:
           type: string
           description: UUID field
+          format: uuid
         name:
           type: string
           description: Artist name
@@ -877,6 +953,7 @@ components:
         id:
           type: string
           description: UUID field
+          format: uuid
         name:
           type: string
           description: Track name
@@ -884,10 +961,12 @@ components:
           type: string
           description: Artist id
           nullable: true
+          format: uuid
         albumId:
           type: string
           description: Album id
           nullable: true
+          format: uuid
         duration:
           type: number
           description: Track duration
@@ -937,10 +1016,12 @@ components:
           type: string
           description: Artist id
           nullable: true
+          format: uuid
         albumId:
           type: string
           description: Album id
           nullable: true
+          format: uuid
       required:
         - name
         - duration
@@ -950,6 +1031,7 @@ components:
         id:
           type: string
           description: UUID field
+          format: uuid
         createdAt:
           type: number
           description: User create date timestamp
@@ -961,7 +1043,8 @@ components:
           description: User update date timestamp
         version:
           type: number
-          description: User version
+          description: User entity version
+          format: int32
       required:
         - id
         - createdAt

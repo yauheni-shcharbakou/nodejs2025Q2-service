@@ -9,13 +9,23 @@ export class TrackCreateDto
   extends OmitType(TrackDto, ['albumId', 'artistId', 'id'] as const)
   implements ITrackCreate
 {
-  @ApiProperty({ description: 'Artist id', nullable: true, required: false })
+  @ApiProperty({
+    description: 'Artist id',
+    nullable: true,
+    required: false,
+    format: 'uuid',
+  })
   @IsOptional()
   @IsUUIDOrNull()
   @TransformToNullableId()
   artistId: string | null;
 
-  @ApiProperty({ description: 'Album id', nullable: true, required: false })
+  @ApiProperty({
+    description: 'Album id',
+    nullable: true,
+    required: false,
+    format: 'uuid',
+  })
   @IsOptional()
   @IsUUIDOrNull()
   @TransformToNullableId()

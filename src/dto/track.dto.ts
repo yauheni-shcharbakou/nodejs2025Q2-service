@@ -11,12 +11,12 @@ export class TrackDto extends IdFieldDto implements ITrack {
   @IsString()
   name: string;
 
-  @ApiProperty({ description: 'Artist id', nullable: true })
+  @ApiProperty({ description: 'Artist id', nullable: true, format: 'uuid' })
   @IsUUIDOrNull()
   @TransformToNullableId()
   artistId: string | null;
 
-  @ApiProperty({ description: 'Album id', nullable: true })
+  @ApiProperty({ description: 'Album id', nullable: true, format: 'uuid' })
   @IsUUIDOrNull()
   @TransformToNullableId()
   albumId: string | null;

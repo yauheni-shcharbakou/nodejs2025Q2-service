@@ -29,6 +29,8 @@ export class ExceptionResponseDto {
 
   @ApiProperty({
     description: 'Exception status code',
+    enum: HttpStatus,
+    enumName: 'HttpStatus',
     example: HttpStatus.NOT_FOUND,
   })
   @IsNotEmpty()

@@ -9,7 +9,7 @@ export class AlbumCreateDto
   extends OmitType(AlbumDto, ['id', 'artistId'] as const)
   implements IAlbumCreate
 {
-  @ApiProperty({ required: false, nullable: true })
+  @ApiProperty({ required: false, nullable: true, format: 'uuid' })
   @IsOptional()
   @IsUUIDOrNull()
   @TransformToNullableId()

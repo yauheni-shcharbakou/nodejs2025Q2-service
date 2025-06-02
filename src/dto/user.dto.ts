@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 import { IdFieldDto } from './id-field.dto';
 import { IUser } from '../interfaces/user.interface';
 
@@ -25,8 +31,9 @@ export class UserDto extends IdFieldDto implements IUser {
   @IsPositive()
   updatedAt: number;
 
-  @ApiProperty({ description: 'User version' })
+  @ApiProperty({ description: 'User entity version', format: 'int32' })
   @IsNotEmpty()
   @IsNumber()
+  @IsInt()
   version: number;
 }
