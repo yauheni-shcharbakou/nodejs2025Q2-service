@@ -14,12 +14,16 @@ async function bootstrap() {
 
   const swagger = new DocumentBuilder()
     .setTitle('Home Library Service')
-    .setDescription('The Home Library Service API description')
-    .setVersion('1.0')
+    .setDescription('Home music library service')
+    .setVersion('1.0.0')
+    .addServer(`http://localhost:${port}`)
     .build();
 
   const swaggerDoc = SwaggerModule.createDocument(app, swagger);
-  SwaggerModule.setup('doc', app, swaggerDoc);
+
+  SwaggerModule.setup('doc', app, swaggerDoc, {
+    yamlDocumentUrl: 'doc/api.yaml',
+  });
 
   await app.listen(port, () => {
     logger.log(`Server is listening on http://localhost:${port}`);

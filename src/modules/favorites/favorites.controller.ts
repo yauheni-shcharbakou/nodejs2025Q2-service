@@ -18,7 +18,8 @@ import {
 } from '@nestjs/swagger';
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
-import { FavoritesAddResultDto, FavoritesDto } from '../../dto/favorites.dto';
+import { FavoritesDto } from '../../dto/favorites.dto';
+import { FavoritesAddResultDto } from './dto/favorites.add-result.dto';
 import { FavoritesService } from './favorites.service';
 import { plainToInstance } from 'class-transformer';
 
