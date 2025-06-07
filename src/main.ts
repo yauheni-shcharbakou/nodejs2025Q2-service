@@ -1,13 +1,14 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConfigService } from './modules/config/config.service';
+import { IEnv } from './interfaces/env.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
-  const port = configService.get('PORT');
+  const configService = app.get(ConfigService<IEnv>);
+  const port = configService.get('PORT', { infer: true });
   const logger = new Logger();
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));

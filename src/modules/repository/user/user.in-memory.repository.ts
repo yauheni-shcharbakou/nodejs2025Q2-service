@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { IUser, IUserCreate } from '../../../interfaces/user.interface';
+import {
+  IUser,
+  IUserCreate,
+  IUserUpdate,
+} from '../../../interfaces/user.interface';
 import { BaseInMemoryRepository } from '../base/base.in-memory.repository';
 import { IUserRepository } from './user.repository.interface';
 import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UserInMemoryRepository
-  extends BaseInMemoryRepository<IUser, IUserCreate>
+  extends BaseInMemoryRepository<IUser, IUserCreate, IUserUpdate, IUserUpdate>
   implements IUserRepository
 {
   async create(data: IUserCreate): Promise<IUser> {
@@ -24,10 +28,7 @@ export class UserInMemoryRepository
     return user;
   }
 
-  async updateById(
-    id: string,
-    data: Partial<IUser>,
-  ): Promise<IUser | undefined> {
+  async updateById(id: string, data: IUserUpdate): Promise<IUser | undefined> {
     return super.updateById(id, (user) => ({
       ...data,
       updatedAt: Date.now(),
