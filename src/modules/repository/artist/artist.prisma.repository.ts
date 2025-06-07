@@ -8,8 +8,8 @@ export class ArtistPrismaRepository implements IArtistRepository {
   constructor(protected readonly model: Prisma.ArtistDelegate) {}
 
   async existsById(id: string): Promise<boolean> {
-    const user = await this.model.findUnique({ where: { id } });
-    return !!user;
+    const album = await this.findById(id);
+    return !!album;
   }
 
   async findAll(): Promise<IArtist[]> {

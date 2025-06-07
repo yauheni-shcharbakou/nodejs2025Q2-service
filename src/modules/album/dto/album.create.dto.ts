@@ -6,7 +6,7 @@ import { IAlbumCreate } from '../../../interfaces/album.interface';
 import { AlbumDto } from '../../../dto/album.dto';
 
 export class AlbumCreateDto
-  extends OmitType(AlbumDto, ['id', 'artistId'] as const)
+  extends OmitType(AlbumDto, ['id', 'artistId', 'artist'] as const)
   implements IAlbumCreate
 {
   @ApiProperty({ required: false, nullable: true, format: 'uuid' })

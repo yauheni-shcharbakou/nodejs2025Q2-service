@@ -27,4 +27,13 @@ model Artist {
   id        String    @id @default(uuid(4))
   name      String
   grammy    Boolean   @default(false)
+  albums    Album[]
+}
+
+model Album {
+  id        String    @id @default(uuid(4))
+  name      String
+  year      Int
+  artist    Artist?   @relation(fields: [artistId], references: [id], onDelete: Cascade)
+  artistId  String?
 }
