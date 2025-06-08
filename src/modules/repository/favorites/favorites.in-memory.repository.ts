@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { IAlbum } from '../../../models/album.model';
 import { IArtist } from '../../../models/artist.model';
 import { ITrack } from '../../../models/track.model';
@@ -7,12 +8,14 @@ import { IFavorites, IFavoritesAdd } from 'src/models/favorites.model';
 
 @Injectable()
 export class FavoritesInMemoryRepository implements IFavoritesRepository {
+  private readonly id = randomUUID();
   private readonly albumById = new Map<string, IAlbum>();
   private readonly artistById = new Map<string, IArtist>();
   private readonly trackById = new Map<string, ITrack>();
 
   async find(): Promise<IFavorites> {
     return {
+      id: this.id,
       albums: Array.from(this.albumById.values()),
       artists: Array.from(this.artistById.values()),
       tracks: Array.from(this.trackById.values()),

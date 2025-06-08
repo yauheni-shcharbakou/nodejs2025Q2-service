@@ -20,7 +20,7 @@ import {
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { ArtistCreateDto } from './dto/artist.create.dto';
-import { ArtistDto } from '../../dto/artist.dto';
+import { ArtistDto } from '../../dto/models/artist.dto';
 import { ArtistService } from './artist.service';
 import { plainToInstance } from 'class-transformer';
 

@@ -20,7 +20,7 @@ import {
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { TrackCreateDto } from './dto/track.create.dto';
-import { TrackDto } from '../../dto/track.dto';
+import { TrackDto } from '../../dto/models/track.dto';
 import { TrackService } from './track.service';
 import { plainToInstance } from 'class-transformer';
 
