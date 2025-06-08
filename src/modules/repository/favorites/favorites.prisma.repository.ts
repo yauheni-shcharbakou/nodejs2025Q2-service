@@ -1,20 +1,11 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { randomUUID } from 'crypto';
 import { IFavoritesRepository } from './favorites.repository.interface';
 import { IFavorites, IFavoritesAdd } from 'src/models/favorites.model';
 
 @Injectable()
 export class FavoritesPrismaRepository implements IFavoritesRepository {
   constructor(protected readonly model: Prisma.FavoritesDelegate) {}
-
-  // async onModuleInit(): Promise<void> {
-  //   await this.model.upsert({
-  //     where: { id: randomUUID() },
-  //     create: {},
-  //     update: {},
-  //   });
-  // }
 
   async find(): Promise<IFavorites> {
     return this.model.findFirst({
@@ -57,21 +48,6 @@ export class FavoritesPrismaRepository implements IFavoritesRepository {
     });
 
     return true;
-
-    // const isExists = await this.prismaService.album.findFirst({
-    //   where: { id: albumId, favoritesId: { not: null } },
-    //   select: { id: true },
-    // });
-    //
-    // if (!isExists) {
-    //   return false;
-    // }
-    //
-    // await this.prismaService.favorites.update({
-    //   where: { albums: { some: { id: albumId } } },
-    //   data: { albums: { disconnect: { id: albumId } } },
-    // });
-    // return !isExists;
   }
 
   async deleteArtist(artistId: string): Promise<boolean> {
