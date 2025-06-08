@@ -27,9 +27,16 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "docker": "docker compose up",
-    "docker:build": "docker compose up --build",
-    "audit": "npm audit --audit-level=high"
+    "docker-compose:local": "docker compose --profile local up",
+    "docker-compose:hub": "docker compose --profile hub up",
+    "docker-compose:local:build": "docker compose --profile local up --build",
+    "docker-compose:hub:build": "docker compose --profile hub up --build",
+    "docker:build:db": "docker build . -t evgeniishcherbakov/postgresql -f ./Dockerfile.db",
+    "docker:build:backend": "docker build . -t evgeniishcherbakov/home-library-service -f ./Dockerfile.backend",
+    "docker:push:db": "docker push evgeniishcherbakov/postgresql:latest",
+    "docker:push:backend": "docker push evgeniishcherbakov/home-library-service:latest",
+    "audit:npm": "npm audit --audit-level=high",
+    "audit:docker": "docker scout quickview"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.3",

@@ -5,7 +5,7 @@ ARG PORT
 
 COPY package*.json .
 RUN npm install
-RUN npm run audit
+RUN npm run audit:npm
 RUN npm cache clean --force
 
 COPY . .
