@@ -52,9 +52,7 @@ services:
       - public-network
     command: npm run start:docker
     volumes:
-      - .:/app:delegated
-      - /app/node_modules
-      - /app/dist
+      - ./src:/app/src
     depends_on:
       db:
         condition: service_healthy
