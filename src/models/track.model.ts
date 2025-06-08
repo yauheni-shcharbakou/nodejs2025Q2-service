@@ -11,4 +11,7 @@ export interface ITrack extends IIdField {
   duration: number;
 }
 
-export interface ITrackCreate extends Omit<ITrack, 'id' | 'album' | 'artist'> {}
+export interface ITrackCreate
+  extends Pick<ITrack, 'name' | 'duration' | 'artistId' | 'albumId'> {}
+
+export interface ITrackFilter extends Partial<ITrackCreate> {}

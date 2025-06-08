@@ -5,4 +5,6 @@ export interface IArtist extends IIdField {
   grammy: boolean;
 }
 
-export interface IArtistCreate extends Omit<IArtist, 'id'> {}
+export interface IArtistCreate extends Pick<IArtist, 'name' | 'grammy'> {}
+
+export interface IArtistFilter extends Partial<IArtistCreate> {}

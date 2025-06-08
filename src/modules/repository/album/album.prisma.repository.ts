@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { IIdField } from '../../../interfaces/id-field.interface';
-import { IAlbum, IAlbumCreate } from '../../../models/album.model';
+import {
+  IAlbum,
+  IAlbumCreate,
+  IAlbumFilter,
+} from '../../../models/album.model';
 import { IAlbumRepository } from './album.repository.interface';
 
 type AlbumRelationsUpdate = {
@@ -61,7 +65,7 @@ export class AlbumPrismaRepository implements IAlbumRepository {
 
   async updateById(
     id: string,
-    updateData: Partial<IAlbum>,
+    updateData: IAlbumFilter,
   ): Promise<IAlbum | undefined> {
     return this.model.update({
       where: { id },
@@ -74,8 +78,8 @@ export class AlbumPrismaRepository implements IAlbumRepository {
   }
 
   async updateMany(
-    filter: Partial<IAlbum>,
-    updateData: Partial<IAlbum>,
+    filter: IAlbumFilter,
+    updateData: IAlbumFilter,
   ): Promise<void> {
     if (updateData.artistId !== null) {
       await this.model.updateMany({

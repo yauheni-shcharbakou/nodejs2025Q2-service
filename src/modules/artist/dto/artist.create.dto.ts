@@ -1,7 +1,7 @@
-import { OmitType } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 import { IArtistCreate } from '../../../models/artist.model';
 import { ArtistDto } from '../../../dto/artist.dto';
 
 export class ArtistCreateDto
-  extends OmitType(ArtistDto, ['id'] as const)
+  extends PickType(ArtistDto, ['name', 'grammy'] as const)
   implements IArtistCreate {}

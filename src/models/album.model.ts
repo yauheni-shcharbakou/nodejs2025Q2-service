@@ -8,4 +8,7 @@ export interface IAlbum extends IIdField {
   artistId: string | null;
 }
 
-export interface IAlbumCreate extends Omit<IAlbum, 'id' | 'artist'> {}
+export interface IAlbumCreate
+  extends Pick<IAlbum, 'name' | 'year' | 'artistId'> {}
+
+export interface IAlbumFilter extends Partial<IAlbumCreate> {}

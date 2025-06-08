@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { IArtist, IArtistCreate } from '../../../models/artist.model';
+import {
+  IArtist,
+  IArtistCreate,
+  IArtistFilter,
+} from '../../../models/artist.model';
 import { IArtistRepository } from './artist.repository.interface';
 
 @Injectable()
@@ -26,14 +30,14 @@ export class ArtistPrismaRepository implements IArtistRepository {
 
   async updateById(
     id: string,
-    data: Partial<IArtist>,
+    data: IArtistFilter,
   ): Promise<IArtist | undefined> {
     return this.model.update({ where: { id }, data });
   }
 
   async updateMany(
-    filter: Partial<IArtist>,
-    updateData: Partial<IArtist>,
+    filter: IArtistFilter,
+    updateData: IArtistFilter,
   ): Promise<void> {
     await this.model.updateMany({ where: filter, data: updateData });
   }

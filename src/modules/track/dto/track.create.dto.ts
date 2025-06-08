@@ -1,4 +1,4 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { TransformToNullableId } from '../../../decorators/transfrom.decorator';
 import { IsUUIDOrNull } from '../../../decorators/validation.decorator';
@@ -6,13 +6,7 @@ import { ITrackCreate } from '../../../models/track.model';
 import { TrackDto } from '../../../dto/track.dto';
 
 export class TrackCreateDto
-  extends OmitType(TrackDto, [
-    'albumId',
-    'artistId',
-    'id',
-    'artist',
-    'album',
-  ] as const)
+  extends PickType(TrackDto, ['name', 'duration'] as const)
   implements ITrackCreate
 {
   @ApiProperty({

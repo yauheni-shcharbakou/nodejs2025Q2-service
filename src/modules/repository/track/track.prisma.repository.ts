@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { IIdField } from '../../../interfaces/id-field.interface';
-import { ITrack, ITrackCreate } from '../../../models/track.model';
+import {
+  ITrack,
+  ITrackCreate,
+  ITrackFilter,
+} from '../../../models/track.model';
 import { ITrackRepository } from './track.repository.interface';
 
 type TrackRelationsUpdate = {
@@ -74,7 +78,7 @@ export class TrackPrismaRepository implements ITrackRepository {
 
   async updateById(
     id: string,
-    updateData: Partial<ITrack>,
+    updateData: ITrackFilter,
   ): Promise<ITrack | undefined> {
     return this.model.update({
       where: { id },
@@ -87,8 +91,8 @@ export class TrackPrismaRepository implements ITrackRepository {
   }
 
   async updateMany(
-    filter: Partial<ITrack>,
-    updateData: Partial<ITrack>,
+    filter: ITrackFilter,
+    updateData: ITrackFilter,
   ): Promise<void> {
     if (!updateData.albumId && !updateData.artistId) {
       await this.model.updateMany({ where: filter, data: updateData });
