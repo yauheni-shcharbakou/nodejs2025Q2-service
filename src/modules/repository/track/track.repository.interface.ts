@@ -1,4 +1,4 @@
-import { ITrack, ITrackCreate } from '../../../interfaces/track.interface';
+import { ITrack, ITrackCreate } from '../../../models/track.model';
 import { IBaseRepository } from '../base/base.repository.interface';
 
 export interface ITrackRepository

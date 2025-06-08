@@ -8,7 +8,7 @@ import {
   IsString,
 } from 'class-validator';
 import { IdFieldDto } from './id-field.dto';
-import { IUser } from '../interfaces/user.interface';
+import { IUser } from '../models/user.model';
 
 export class UserDto extends IdFieldDto implements IUser {
   @ApiProperty({ description: 'User create date timestamp' })

@@ -1,4 +1,4 @@
-import { IIdField } from './id-field.interface';
+import { IIdField } from '../interfaces/id-field.interface';
 
 export interface IUser extends IIdField {
   login: string;

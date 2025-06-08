@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { IAlbum } from '../../../interfaces/album.interface';
-import { IArtist } from '../../../interfaces/artist.interface';
-import { ITrack } from '../../../interfaces/track.interface';
+import { IAlbum } from '../../../models/album.model';
+import { IArtist } from '../../../models/artist.model';
+import { ITrack } from '../../../models/track.model';
 import { IFavoritesRepository } from './favorites.repository.interface';
-import { IFavorites, IFavoritesAdd } from 'src/interfaces/favorites.interface';
+import { IFavorites, IFavoritesAdd } from 'src/models/favorites.model';
 
 @Injectable()
 export class FavoritesInMemoryRepository implements IFavoritesRepository {

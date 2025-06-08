@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 import { IdFieldDto } from './id-field.dto';
-import { IArtist } from '../interfaces/artist.interface';
+import { IArtist } from '../models/artist.model';
 
 export class ArtistDto extends IdFieldDto implements IArtist {
   @ApiProperty({ description: 'Artist name' })

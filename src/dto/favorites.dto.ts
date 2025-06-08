@@ -4,7 +4,7 @@ import { IsNotEmpty, IsObject, ValidateNested } from 'class-validator';
 import { AlbumDto } from './album.dto';
 import { ArtistDto } from './artist.dto';
 import { TrackDto } from './track.dto';
-import { IFavorites } from '../interfaces/favorites.interface';
+import { IFavorites } from '../models/favorites.model';
 
 export class FavoritesDto implements IFavorites {
   @ApiProperty({ type: [ArtistDto] })

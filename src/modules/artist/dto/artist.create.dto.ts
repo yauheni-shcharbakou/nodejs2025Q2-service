@@ -1,5 +1,5 @@
 import { OmitType } from '@nestjs/swagger';
-import { IArtistCreate } from '../../../interfaces/artist.interface';
+import { IArtistCreate } from '../../../models/artist.model';
 import { ArtistDto } from '../../../dto/artist.dto';
 
 export class ArtistCreateDto

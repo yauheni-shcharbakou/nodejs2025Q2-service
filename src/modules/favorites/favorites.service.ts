@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IFavorites } from '../../interfaces/favorites.interface';
+import { IFavorites } from '../../models/favorites.model';
 import { ALBUM_REPOSITORY } from '../repository/album/album.repository.constants';
 import { IAlbumRepository } from '../repository/album/album.repository.interface';
 import { ARTIST_REPOSITORY } from '../repository/artist/artist.repository.constants';

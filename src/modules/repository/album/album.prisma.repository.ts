@@ -1,11 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { IAlbum, IAlbumCreate } from '../../../interfaces/album.interface';
+import { IIdField } from '../../../interfaces/id-field.interface';
+import { IAlbum, IAlbumCreate } from '../../../models/album.model';
 import { IAlbumRepository } from './album.repository.interface';
+
+type AlbumRelationsUpdate = {
+  artist?: {
+    connect?: IIdField;
+    disconnect?: boolean | IIdField;
+  };
+};
 
 @Injectable()
 export class AlbumPrismaRepository implements IAlbumRepository {
   constructor(protected readonly model: Prisma.AlbumDelegate) {}
+
+  protected getRelationsUpdate(
+    artistId?: string | null,
+    updateOperation = true,
+  ): AlbumRelationsUpdate {
+    const update: AlbumRelationsUpdate = {};
+
+    if (artistId) {
+      update.artist = { connect: { id: artistId } };
+    }
+
+    if (!updateOperation) {
+      return update;
+    }
+
+    if (artistId === null) {
+      update.artist = { disconnect: true };
+    }
+
+    return update;
+  }
 
   async existsById(id: string): Promise<boolean> {
     const artist = await this.findById(id);
@@ -20,24 +49,26 @@ export class AlbumPrismaRepository implements IAlbumRepository {
     return this.model.findUnique({ where: { id } });
   }
 
-  async create({ artistId, ...data }: IAlbumCreate): Promise<IAlbum> {
+  async create(data: IAlbumCreate): Promise<IAlbum> {
     return this.model.create({
       data: {
-        ...data,
-        artist: artistId ? { connect: { id: artistId } } : undefined,
+        name: data.name,
+        year: data.year,
+        ...this.getRelationsUpdate(data.artistId, false),
       },
     });
   }
 
   async updateById(
     id: string,
-    { artistId, ...data }: Partial<IAlbum>,
+    updateData: Partial<IAlbum>,
   ): Promise<IAlbum | undefined> {
     return this.model.update({
       where: { id },
       data: {
-        ...data,
-        artist: artistId ? { connect: { id: artistId } } : undefined,
+        name: updateData.name,
+        year: updateData.year,
+        ...this.getRelationsUpdate(updateData.artistId),
       },
     });
   }
@@ -46,7 +77,16 @@ export class AlbumPrismaRepository implements IAlbumRepository {
     filter: Partial<IAlbum>,
     updateData: Partial<IAlbum>,
   ): Promise<void> {
-    await this.model.updateMany({ where: filter, data: updateData });
+    if (updateData.artistId !== null) {
+      await this.model.updateMany({
+        where: filter,
+        data: {
+          name: updateData.name,
+          year: updateData.year,
+          ...this.getRelationsUpdate(updateData.artistId),
+        },
+      });
+    }
   }
 
   async deleteById(id: string): Promise<boolean> {

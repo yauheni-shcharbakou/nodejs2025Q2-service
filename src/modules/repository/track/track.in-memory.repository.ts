@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ITrack, ITrackCreate } from '../../../interfaces/track.interface';
+import { ITrack, ITrackCreate } from '../../../models/track.model';
 import { BaseInMemoryRepository } from '../base/base.in-memory.repository';
 import { ITrackRepository } from './track.repository.interface';
 import { randomUUID } from 'crypto';

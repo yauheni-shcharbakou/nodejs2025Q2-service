@@ -1,9 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  IUser,
-  IUserCreate,
-  IUserUpdate,
-} from '../../../interfaces/user.interface';
+import { IUser, IUserCreate, IUserUpdate } from '../../../models/user.model';
 import { BaseInMemoryRepository } from '../base/base.in-memory.repository';
 import { IUserRepository } from './user.repository.interface';
 import { randomUUID } from 'crypto';

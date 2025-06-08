@@ -9,9 +9,9 @@ import {
 } from 'class-validator';
 import { TransformToNullableId } from '../decorators/transfrom.decorator';
 import { IsUUIDOrNull } from '../decorators/validation.decorator';
-import { IArtist } from '../interfaces/artist.interface';
+import { IArtist } from '../models/artist.model';
 import { IdFieldDto } from './id-field.dto';
-import { IAlbum } from '../interfaces/album.interface';
+import { IAlbum } from '../models/album.model';
 
 export class AlbumDto extends IdFieldDto implements IAlbum {
   @ApiProperty({ description: 'Album name' })

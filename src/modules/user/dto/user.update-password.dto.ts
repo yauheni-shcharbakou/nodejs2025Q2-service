@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { IUserUpdatePassword } from '../../../interfaces/user.interface';
+import { IUserUpdatePassword } from '../../../models/user.model';
 
 export class UserUpdatePasswordDto implements IUserUpdatePassword {
   @ApiProperty({ description: 'New user password' })

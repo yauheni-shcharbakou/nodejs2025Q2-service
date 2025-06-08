@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IArtist, IArtistCreate } from '../../../interfaces/artist.interface';
+import { IArtist, IArtistCreate } from '../../../models/artist.model';
 import { BaseInMemoryRepository } from '../base/base.in-memory.repository';
 import { IArtistRepository } from './artist.repository.interface';
 import { randomUUID } from 'crypto';

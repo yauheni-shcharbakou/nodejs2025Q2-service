@@ -1,11 +1,53 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { ITrack, ITrackCreate } from '../../../interfaces/track.interface';
+import { IIdField } from '../../../interfaces/id-field.interface';
+import { ITrack, ITrackCreate } from '../../../models/track.model';
 import { ITrackRepository } from './track.repository.interface';
+
+type TrackRelationsUpdate = {
+  artist?: {
+    connect?: IIdField;
+    disconnect?: boolean | IIdField;
+  };
+  album?: {
+    connect?: IIdField;
+    disconnect?: boolean | IIdField;
+  };
+};
 
 @Injectable()
 export class TrackPrismaRepository implements ITrackRepository {
   constructor(protected readonly model: Prisma.TrackDelegate) {}
+
+  protected getRelationsUpdate(
+    artistId?: string | null,
+    albumId?: string | null,
+    updateOperation = true,
+  ): TrackRelationsUpdate {
+    const update: TrackRelationsUpdate = {};
+
+    if (artistId) {
+      update.artist = { connect: { id: artistId } };
+    }
+
+    if (albumId) {
+      update.album = { connect: { id: albumId } };
+    }
+
+    if (!updateOperation) {
+      return update;
+    }
+
+    if (artistId === null) {
+      update.artist = { disconnect: true };
+    }
+
+    if (albumId === null) {
+      update.album = { disconnect: true };
+    }
+
+    return update;
+  }
 
   async existsById(id: string): Promise<boolean> {
     const artist = await this.findById(id);
@@ -20,26 +62,26 @@ export class TrackPrismaRepository implements ITrackRepository {
     return this.model.findUnique({ where: { id } });
   }
 
-  async create({ artistId, albumId, ...data }: ITrackCreate): Promise<ITrack> {
+  async create(data: ITrackCreate): Promise<ITrack> {
     return this.model.create({
       data: {
-        ...data,
-        artist: artistId ? { connect: { id: artistId } } : undefined,
-        album: albumId ? { connect: { id: albumId } } : undefined,
+        name: data.name,
+        duration: data.duration,
+        ...this.getRelationsUpdate(data.artistId, data.albumId, false),
       },
     });
   }
 
   async updateById(
     id: string,
-    { artistId, albumId, ...data }: Partial<ITrack>,
+    updateData: Partial<ITrack>,
   ): Promise<ITrack | undefined> {
     return this.model.update({
       where: { id },
       data: {
-        ...data,
-        artist: artistId ? { connect: { id: artistId } } : undefined,
-        album: albumId ? { connect: { id: albumId } } : undefined,
+        name: updateData.name,
+        duration: updateData.duration,
+        ...this.getRelationsUpdate(updateData.artistId, updateData.albumId),
       },
     });
   }
@@ -48,7 +90,10 @@ export class TrackPrismaRepository implements ITrackRepository {
     filter: Partial<ITrack>,
     updateData: Partial<ITrack>,
   ): Promise<void> {
-    await this.model.updateMany({ where: filter, data: updateData });
+    if (!updateData.albumId && !updateData.artistId) {
+      await this.model.updateMany({ where: filter, data: updateData });
+      return;
+    }
   }
 
   async deleteById(id: string): Promise<boolean> {

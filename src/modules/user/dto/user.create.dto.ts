@@ -1,6 +1,6 @@
 import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { IUserCreate } from '../../../interfaces/user.interface';
+import { IUserCreate } from '../../../models/user.model';
 import { UserDto } from '../../../dto/user.dto';
 
 export class UserCreateDto

@@ -1,7 +1,4 @@
-import {
-  IFavorites,
-  IFavoritesAdd,
-} from '../../../interfaces/favorites.interface';
+import { IFavorites, IFavoritesAdd } from '../../../models/favorites.model';
 
 export interface IFavoritesRepository {
   find(): Promise<IFavorites>;

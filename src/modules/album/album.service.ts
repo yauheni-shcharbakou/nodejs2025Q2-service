@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { IAlbum, IAlbumCreate } from '../../interfaces/album.interface';
+import { IAlbum, IAlbumCreate } from '../../models/album.model';
 import { BaseService } from '../../services/base.service';
 import { ALBUM_REPOSITORY } from '../repository/album/album.repository.constants';
 import { IAlbumRepository } from '../repository/album/album.repository.interface';

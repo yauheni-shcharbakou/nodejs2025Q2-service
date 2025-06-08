@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { IAlbum, IAlbumCreate } from '../../../interfaces/album.interface';
+import { IAlbum, IAlbumCreate } from '../../../models/album.model';
 import { BaseInMemoryRepository } from '../base/base.in-memory.repository';
 import { IAlbumRepository } from './album.repository.interface';
 import { randomUUID } from 'crypto';

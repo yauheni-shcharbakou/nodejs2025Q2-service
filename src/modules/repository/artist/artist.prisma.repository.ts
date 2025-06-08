@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { IArtist, IArtistCreate } from '../../../interfaces/artist.interface';
+import { IArtist, IArtistCreate } from '../../../models/artist.model';
 import { IArtistRepository } from './artist.repository.interface';
 
 @Injectable()
