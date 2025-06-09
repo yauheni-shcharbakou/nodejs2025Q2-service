@@ -52,9 +52,10 @@ services:
       - "${PORT}:${PORT}"
     networks:
       - local-network
-    command: npm run start:docker
+    command: sh -c "npm run start:docker"
     volumes:
       - ./src:/app/src
+      - ./nodemon.json:/app/nodemon.json
     depends_on:
       db:
         condition: service_healthy
@@ -106,9 +107,10 @@ services:
       - "${PORT}:${PORT}"
     networks:
       - hub-network
-    command: npm run start:docker
+    command: sh -c "npm run start:docker"
     volumes:
       - ./src:/app/src
+      - ./nodemon.json:/app/nodemon.json
     depends_on:
       db_hub:
         condition: service_healthy

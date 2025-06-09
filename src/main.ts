@@ -11,6 +11,7 @@ async function bootstrap() {
   const port = configService.get('PORT', { infer: true });
   const logger = new Logger();
 
+  app.enableShutdownHooks();
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const swagger = new DocumentBuilder()
@@ -25,6 +26,9 @@ async function bootstrap() {
   SwaggerModule.setup('doc', app, swaggerDoc, {
     yamlDocumentUrl: 'doc/api.yaml',
   });
+
+  process.on('exit', () => app.close());
+  process.on('SIGINT', () => app.close());
 
   await app.listen(port, () => {
     logger.log(`Server is listening on http://localhost:${port}`);
