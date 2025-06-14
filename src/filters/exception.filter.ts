@@ -6,6 +6,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { LoggingService } from '../modules/logging/logging.service';
 
 type ResponseData = {
   statusCode: number;
@@ -16,6 +17,8 @@ type ResponseData = {
 
 @Catch()
 export class AppExceptionFilter implements ExceptionFilter {
+  constructor(private readonly loggingService: LoggingService) {}
+
   private parseExceptionMessage(exception: Error): string {
     if (!(exception instanceof HttpException)) {
       return exception.message;
@@ -38,7 +41,7 @@ export class AppExceptionFilter implements ExceptionFilter {
     return 'Unknown exception';
   }
 
-  catch(exception: Error, host: ArgumentsHost) {
+  async catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
@@ -54,6 +57,7 @@ export class AppExceptionFilter implements ExceptionFilter {
       responseData.statusCode = exception.getStatus();
     }
 
+    await this.loggingService.error(exception, exception.stack);
     response.status(responseData.statusCode).json(responseData);
   }
 }

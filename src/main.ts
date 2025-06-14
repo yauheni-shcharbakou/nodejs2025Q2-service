@@ -35,11 +35,11 @@ async function bootstrap() {
   process.on('SIGINT', () => app.close());
 
   process.on('unhandledRejection', (error) =>
-    loggingService.error(error ?? 'UnhandledRejection', error?.['stack']),
+    loggingService.fatal(error ?? 'UnhandledRejection', error?.['stack']),
   );
 
   process.on('uncaughtException', (error) =>
-    loggingService.error(error, error.stack),
+    loggingService.fatal(error, error.stack),
   );
 
   await app.listen(port, async () => {
