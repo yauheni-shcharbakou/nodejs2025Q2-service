@@ -1,15 +1,19 @@
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { IEnv } from './interfaces/env.interface';
+import { LoggingService } from './modules/logging/logging.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService<IEnv>);
+  const loggingService = app.get(LoggingService);
+
+  await loggingService.init();
+
   const port = configService.get('PORT', { infer: true });
-  const logger = new Logger();
 
   app.enableShutdownHooks();
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
@@ -30,9 +34,19 @@ async function bootstrap() {
   process.on('exit', () => app.close());
   process.on('SIGINT', () => app.close());
 
-  await app.listen(port, () => {
-    logger.log(`Server is listening on http://localhost:${port}`);
-    logger.log(`Swagger is available on http://localhost:${port}/doc`);
+  process.on('unhandledRejection', (error) =>
+    loggingService.error(error ?? 'UnhandledRejection', error?.['stack']),
+  );
+
+  process.on('uncaughtException', (error) =>
+    loggingService.error(error, error.stack),
+  );
+
+  await app.listen(port, async () => {
+    await loggingService.log(`Server is listening on http://localhost:${port}`);
+    await loggingService.log(
+      `Swagger is available on http://localhost:${port}/doc`,
+    );
   });
 }
 bootstrap();
