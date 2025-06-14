@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-import { TransformToNullableId } from '../decorators/transfrom.decorator';
-import { IsUUIDOrNull } from '../decorators/validation.decorator';
-import { IdFieldDto } from './id-field.dto';
-import { ITrack } from '../interfaces/track.interface';
+import { TransformToNullableId } from '../../decorators/transfrom.decorator';
+import { IsUUIDOrNull } from '../../decorators/validation.decorator';
+import { IdFieldDto } from '../id-field.dto';
+import { ITrack } from '../../models/track.model';
 
 export class TrackDto extends IdFieldDto implements ITrack {
   @ApiProperty({ description: 'Track name' })
@@ -25,4 +26,7 @@ export class TrackDto extends IdFieldDto implements ITrack {
   @IsNotEmpty()
   @IsNumber()
   duration: number;
+
+  @Exclude()
+  favoritesId?: string;
 }

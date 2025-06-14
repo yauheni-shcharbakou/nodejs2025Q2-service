@@ -4,8 +4,9 @@ import { IBaseRepository } from './base.repository.interface';
 export abstract class BaseInMemoryRepository<
   Entity extends IIdField,
   Create extends object = Partial<Entity>,
+  Filter extends object = Partial<Entity>,
   Update extends object = Partial<Entity>,
-> implements IBaseRepository<Entity, Create, Update>
+> implements IBaseRepository<Entity, Create, Filter, Update>
 {
   protected readonly entityById = new Map<string, Entity>();
 
@@ -37,7 +38,7 @@ export abstract class BaseInMemoryRepository<
     return Object.assign(entity, updateData);
   }
 
-  async updateMany(filter: Partial<Entity>, updateData: Update): Promise<void> {
+  async updateMany(filter: Filter, updateData: Update): Promise<void> {
     const entities = await this.findAll();
     const filterKeys = Object.keys(filter);
 

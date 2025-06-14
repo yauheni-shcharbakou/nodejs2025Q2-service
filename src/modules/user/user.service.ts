@@ -3,7 +3,7 @@ import {
   IUser,
   IUserCreate,
   IUserUpdatePassword,
-} from '../../interfaces/user.interface';
+} from '../../models/user.model';
 import { BaseService } from '../../services/base.service';
 import { USER_REPOSITORY } from '../repository/user/user.repository.constants';
 import { IUserRepository } from '../repository/user/user.repository.interface';

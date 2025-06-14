@@ -1,12 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ArtistInMemoryRepository } from './artist.in-memory.repository';
+import { PrismaService } from '../prisma.service';
+import { ArtistPrismaRepository } from './artist.prisma.repository';
 import { ARTIST_REPOSITORY } from './artist.repository.constants';
 
 @Module({
   providers: [
+    PrismaService,
     {
       provide: ARTIST_REPOSITORY,
-      useClass: ArtistInMemoryRepository,
+      useFactory: (prismaService: PrismaService) => {
+        return new ArtistPrismaRepository(prismaService.artist);
+      },
+      inject: [PrismaService],
     },
   ],
   exports: [ARTIST_REPOSITORY],

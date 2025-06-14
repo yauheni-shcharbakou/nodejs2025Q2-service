@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 import {
   IsInt,
   IsNotEmpty,
@@ -6,10 +7,10 @@ import {
   IsPositive,
   IsString,
 } from 'class-validator';
-import { TransformToNullableId } from '../decorators/transfrom.decorator';
-import { IsUUIDOrNull } from '../decorators/validation.decorator';
-import { IdFieldDto } from './id-field.dto';
-import { IAlbum } from '../interfaces/album.interface';
+import { TransformToNullableId } from '../../decorators/transfrom.decorator';
+import { IsUUIDOrNull } from '../../decorators/validation.decorator';
+import { IdFieldDto } from '../id-field.dto';
+import { IAlbum } from '../../models/album.model';
 
 export class AlbumDto extends IdFieldDto implements IAlbum {
   @ApiProperty({ description: 'Album name' })
@@ -32,4 +33,7 @@ export class AlbumDto extends IdFieldDto implements IAlbum {
   @IsUUIDOrNull()
   @TransformToNullableId()
   artistId: string | null;
+
+  @Exclude()
+  favoritesId?: string;
 }

@@ -1,4 +1,4 @@
-import { IIdField } from './id-field.interface';
+import { IIdField } from '../interfaces/id-field.interface';
 
 export interface IUser extends IIdField {
   login: string;
@@ -8,9 +8,9 @@ export interface IUser extends IIdField {
   updatedAt: number;
 }
 
-export interface IUserPublic extends Omit<IUser, 'password'> {}
-
 export interface IUserCreate extends Pick<IUser, 'login' | 'password'> {}
+
+export interface IUserUpdate extends Partial<IUserCreate> {}
 
 export interface IUserUpdatePassword {
   oldPassword: string;
