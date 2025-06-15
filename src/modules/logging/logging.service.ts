@@ -12,6 +12,7 @@ export class LoggingService {
   private readonly logger = new Logger();
   private currentIndex = 0;
   private currentErrorIndex = 0;
+  private isInitialized = false;
 
   private readonly levelIndexByLevel: Map<LogLevel, number> = LOG_LEVELS.reduce(
     (acc: Map<LogLevel, number>, level, index) => {
@@ -124,10 +125,23 @@ export class LoggingService {
     }
 
     this.logger[level](message, context);
-    await this.saveLogs(level, message, stack, context);
+
+    try {
+      if (!this.isInitialized) {
+        await this.init();
+      }
+
+      await this.saveLogs(level, message, stack, context);
+    } catch (e) {
+      console.log(e, e.stack);
+    }
   }
 
   async init(): Promise<void> {
+    if (this.isInitialized) {
+      return;
+    }
+
     const timestamp = new Date().toISOString();
     const [dayTimestamp] = timestamp.split('T');
     const dirname = resolve(this.logPath, dayTimestamp);
@@ -157,6 +171,8 @@ export class LoggingService {
         this.currentIndex = logIndex;
       }
     }
+
+    this.isInitialized = true;
   }
 
   async verbose(message: any, context?: string): Promise<void> {
