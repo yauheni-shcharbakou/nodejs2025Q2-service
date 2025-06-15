@@ -11,8 +11,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService<IEnv>);
   const loggingService = app.get(LoggingService);
 
-  await loggingService.init();
-
   const port = configService.get('PORT', { infer: true });
 
   app.enableShutdownHooks();
@@ -43,10 +41,8 @@ async function bootstrap() {
   );
 
   await app.listen(port, async () => {
-    await loggingService.log(`Server is listening on http://localhost:${port}`);
-    await loggingService.log(
-      `Swagger is available on http://localhost:${port}/doc`,
-    );
+    loggingService.log(`Server is listening on http://localhost:${port}`);
+    loggingService.log(`Swagger is available on http://localhost:${port}/doc`);
   });
 }
 bootstrap();

@@ -4,9 +4,8 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
-import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 import { LoggingService } from './logging.service';
-import { Observable, switchMap } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Request } from 'express';
 
 @Injectable()
@@ -25,23 +24,18 @@ export class LoggingInterceptor implements NestInterceptor {
     const method = request.method;
 
     const requestLog = `${method} ${url}\nRequest: ${JSON.stringify({ body, query }, null, 2)}`;
-
-    fromPromise(
-      this.loggingService.debug(requestLog, controller.name),
-    ).subscribe();
+    this.loggingService.debug(requestLog, controller.name);
 
     return next.handle().pipe(
-      switchMap((response) => {
+      map((response) => {
         const responseData =
           typeof response === 'object'
             ? JSON.stringify(response, null, 2)
             : response?.toString();
 
         const responseLog = `${method} ${url}\nResponse: ${responseData}`;
-
-        return fromPromise(
-          this.loggingService.debug(responseLog, controller.name),
-        ).pipe(switchMap(() => fromPromise(Promise.resolve(response))));
+        this.loggingService.debug(responseLog, controller.name);
+        return response;
       }),
     );
   }

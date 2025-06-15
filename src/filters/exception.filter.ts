@@ -62,10 +62,8 @@ export class AppExceptionFilter implements ExceptionFilter {
     const data = JSON.stringify(responseData, null, 2);
     const responseLog = `${method} ${url}\nResponse: ${data}`;
 
-    await Promise.all([
-      this.loggingService.error(exception, exception.stack),
-      this.loggingService.debug(responseLog, request.controller),
-    ]);
+    this.loggingService.error(exception, exception.stack);
+    this.loggingService.debug(responseLog, request.controller);
 
     response.status(responseData.statusCode).json(responseData);
   }
