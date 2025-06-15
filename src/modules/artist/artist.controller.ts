@@ -17,15 +17,17 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Auth } from '../../decorators/auth.decorator';
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { ArtistCreateDto } from './dto/artist.create.dto';
-import { ArtistDto } from '../../dto/artist.dto';
+import { ArtistDto } from '../../dto/models/artist.dto';
 import { ArtistService } from './artist.service';
 import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Artist')
 @Controller('artist')
+@Auth()
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 

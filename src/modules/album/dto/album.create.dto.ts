@@ -1,12 +1,12 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
 import { TransformToNullableId } from '../../../decorators/transfrom.decorator';
 import { IsUUIDOrNull } from '../../../decorators/validation.decorator';
-import { IAlbumCreate } from '../../../interfaces/album.interface';
-import { AlbumDto } from '../../../dto/album.dto';
+import { IAlbumCreate } from '../../../models/album.model';
+import { AlbumDto } from '../../../dto/models/album.dto';
 
 export class AlbumCreateDto
-  extends OmitType(AlbumDto, ['id', 'artistId'] as const)
+  extends PickType(AlbumDto, ['name', 'year'] as const)
   implements IAlbumCreate
 {
   @ApiProperty({ required: false, nullable: true, format: 'uuid' })

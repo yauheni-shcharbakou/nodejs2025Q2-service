@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { IAlbum } from '../../../interfaces/album.interface';
-import { IArtist } from '../../../interfaces/artist.interface';
-import { ITrack } from '../../../interfaces/track.interface';
+import { randomUUID } from 'crypto';
+import { IAlbum } from '../../../models/album.model';
+import { IArtist } from '../../../models/artist.model';
+import { ITrack } from '../../../models/track.model';
 import { IFavoritesRepository } from './favorites.repository.interface';
-import { IFavorites, IFavoritesAdd } from 'src/interfaces/favorites.interface';
+import { IFavorites, IFavoritesAdd } from 'src/models/favorites.model';
 
 @Injectable()
 export class FavoritesInMemoryRepository implements IFavoritesRepository {
+  private readonly id = randomUUID();
   private readonly albumById = new Map<string, IAlbum>();
   private readonly artistById = new Map<string, IArtist>();
   private readonly trackById = new Map<string, ITrack>();
 
   async find(): Promise<IFavorites> {
     return {
+      id: this.id,
       albums: Array.from(this.albumById.values()),
       artists: Array.from(this.artistById.values()),
       tracks: Array.from(this.trackById.values()),

@@ -3,6 +3,7 @@ import {
   ApiBadRequestResponse,
   ApiForbiddenResponse,
   ApiNotFoundResponse,
+  ApiUnauthorizedResponse,
   ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { ExceptionResponseDto } from '../dto/exception.response.dto';
@@ -20,7 +21,7 @@ const decoratorByStatusCode = new Map([
     HttpStatus.FORBIDDEN,
     () =>
       ApiForbiddenResponse({
-        description: 'Invalid password',
+        description: 'Forbidden',
         type: ExceptionResponseDto,
       }),
   ],
@@ -37,6 +38,14 @@ const decoratorByStatusCode = new Map([
     (entityName: string) =>
       ApiUnprocessableEntityResponse({
         description: `${entityName} not found`,
+        type: ExceptionResponseDto,
+      }),
+  ],
+  [
+    HttpStatus.UNAUTHORIZED,
+    () =>
+      ApiUnauthorizedResponse({
+        description: 'Unauthorized',
         type: ExceptionResponseDto,
       }),
   ],

@@ -3,8 +3,9 @@ import {
   IUser,
   IUserCreate,
   IUserUpdatePassword,
-} from '../../interfaces/user.interface';
+} from '../../models/user.model';
 import { BaseService } from '../../services/base.service';
+import { CryptoService } from '../crypto/crypto.service';
 import { USER_REPOSITORY } from '../repository/user/user.repository.constants';
 import { IUserRepository } from '../repository/user/user.repository.interface';
 
@@ -12,8 +13,16 @@ import { IUserRepository } from '../repository/user/user.repository.interface';
 export class UserService extends BaseService<IUser, IUserCreate> {
   constructor(
     @Inject(USER_REPOSITORY) protected readonly repository: IUserRepository,
+    private readonly cryptoService: CryptoService,
   ) {
     super();
+  }
+
+  async create(data: IUserCreate): Promise<IUser> {
+    return super.create({
+      ...data,
+      password: await this.cryptoService.hash(data.password),
+    });
   }
 
   async updatePassword(id: string, data: IUserUpdatePassword) {
@@ -29,13 +38,18 @@ export class UserService extends BaseService<IUser, IUserCreate> {
       return { errors };
     }
 
-    if (user.password !== data.oldPassword) {
+    const isOldPasswordValid = await this.cryptoService.compare(
+      data.oldPassword,
+      user.password,
+    );
+
+    if (!isOldPasswordValid) {
       errors.invalidPassword = true;
       return { errors };
     }
 
     const updatedUser = await this.repository.updateById(user.id, {
-      password: data.newPassword,
+      password: await this.cryptoService.hash(data.newPassword),
     });
 
     return { errors, updatedUser };

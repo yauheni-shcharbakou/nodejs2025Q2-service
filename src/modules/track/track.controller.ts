@@ -17,15 +17,17 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Auth } from '../../decorators/auth.decorator';
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { TrackCreateDto } from './dto/track.create.dto';
-import { TrackDto } from '../../dto/track.dto';
+import { TrackDto } from '../../dto/models/track.dto';
 import { TrackService } from './track.service';
 import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Track')
 @Controller('track')
+@Auth()
 export class TrackController {
   constructor(private readonly trackService: TrackService) {}
 

@@ -18,16 +18,18 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Auth } from '../../decorators/auth.decorator';
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
 import { UserCreateDto } from './dto/user.create.dto';
-import { UserDto } from '../../dto/user.dto';
+import { UserDto } from '../../dto/models/user.dto';
 import { UserUpdatePasswordDto } from './dto/user.update-password.dto';
 import { UserService } from './user.service';
 import { plainToInstance } from 'class-transformer';
 
 @ApiTags('User')
 @Controller('user')
+@Auth()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

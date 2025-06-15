@@ -3,6 +3,7 @@ import { IIdField } from '../../../interfaces/id-field.interface';
 export interface IBaseRepository<
   Entity extends IIdField,
   Create extends object = Partial<Entity>,
+  Filter extends object = Partial<Entity>,
   Update extends object = Partial<Entity>,
 > {
   existsById(id: string): Promise<boolean>;
@@ -13,6 +14,6 @@ export interface IBaseRepository<
     id: string,
     updateData: Update | ((entity: Entity) => Update),
   ): Promise<Entity | undefined>;
-  updateMany(filter: Partial<Entity>, updateData: Update): Promise<void>;
+  updateMany(filter: Filter, updateData: Update): Promise<void>;
   deleteById(id: string): Promise<boolean>;
 }

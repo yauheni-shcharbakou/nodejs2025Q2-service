@@ -5,7 +5,9 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { IRequest } from '../interfaces/request.interface';
+import { LoggingService } from '../modules/logging/logging.service';
 
 type ResponseData = {
   statusCode: number;
@@ -16,6 +18,8 @@ type ResponseData = {
 
 @Catch()
 export class AppExceptionFilter implements ExceptionFilter {
+  constructor(private readonly loggingService: LoggingService) {}
+
   private parseExceptionMessage(exception: Error): string {
     if (!(exception instanceof HttpException)) {
       return exception.message;
@@ -38,10 +42,10 @@ export class AppExceptionFilter implements ExceptionFilter {
     return 'Unknown exception';
   }
 
-  catch(exception: Error, host: ArgumentsHost) {
+  async catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getRequest<Request>();
+    const request = ctx.getRequest<IRequest>();
 
     const responseData: ResponseData = {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -53,6 +57,14 @@ export class AppExceptionFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       responseData.statusCode = exception.getStatus();
     }
+
+    const url = request.url;
+    const method = request.method;
+    const data = JSON.stringify(responseData, null, 2);
+    const responseLog = `${method} ${url}\nResponse: ${data}`;
+
+    this.loggingService.error(exception, exception.stack);
+    this.loggingService.debug(responseLog, request['controller']);
 
     response.status(responseData.statusCode).json(responseData);
   }

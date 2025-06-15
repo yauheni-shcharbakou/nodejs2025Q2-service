@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ITrack, ITrackCreate } from '../../interfaces/track.interface';
+import { ITrack, ITrackCreate } from '../../models/track.model';
 import { BaseService } from '../../services/base.service';
 import { ALBUM_REPOSITORY } from '../repository/album/album.repository.constants';
 import { IAlbumRepository } from '../repository/album/album.repository.interface';
