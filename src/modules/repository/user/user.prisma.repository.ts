@@ -34,6 +34,11 @@ export class UserPrismaRepository implements IUserRepository {
     return this.convertUser(user);
   }
 
+  async findOne(filter: IUserUpdate): Promise<IUser | undefined> {
+    const user = await this.model.findFirst({ where: filter });
+    return this.convertUser(user);
+  }
+
   async create(data: IUserCreate): Promise<IUser> {
     const user = await this.model.create({ data });
     return this.convertUser(user);

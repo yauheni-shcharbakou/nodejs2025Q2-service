@@ -31,4 +31,12 @@ export class UserInMemoryRepository
       version: user.version + 1,
     }));
   }
+
+  async findOne(filter: IUserUpdate): Promise<IUser | undefined> {
+    return Array.from(this.entityById.values()).find((user) => {
+      return Object.keys(filter).every(
+        (field) => user[field] === filter[field],
+      );
+    });
+  }
 }

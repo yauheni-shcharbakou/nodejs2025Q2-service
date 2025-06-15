@@ -16,15 +16,17 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Auth } from '../../decorators/auth.decorator';
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { IdFieldDto } from '../../dto/id-field.dto';
+import { MessageFieldDto } from '../../dto/message-field.dto';
 import { FavoritesDto } from '../../dto/models/favorites.dto';
-import { FavoritesAddResultDto } from './dto/favorites.add-result.dto';
 import { FavoritesService } from './favorites.service';
 import { plainToInstance } from 'class-transformer';
 
 @ApiTags('Favorites')
 @Controller('favs')
+@Auth()
 export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
@@ -40,20 +42,20 @@ export class FavoritesController {
   @ApiOperation({ summary: 'Add album to favorites by id' })
   @ApiCreatedResponse({
     description: 'Success response',
-    type: FavoritesAddResultDto,
+    type: MessageFieldDto,
   })
   @ApiExceptions({
     entityName: 'Album',
     statusCodes: [HttpStatus.UNPROCESSABLE_ENTITY, HttpStatus.BAD_REQUEST],
   })
-  async addAlbum(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
+  async addAlbum(@Param() params: IdFieldDto): Promise<MessageFieldDto> {
     const result = await this.favoritesService.addAlbum(params.id);
 
     if (!result) {
       throw new UnprocessableEntityException('Album not found');
     }
 
-    return plainToInstance(FavoritesAddResultDto, {
+    return plainToInstance(MessageFieldDto, {
       message: 'Album added to favorites',
     });
   }
@@ -78,20 +80,20 @@ export class FavoritesController {
   @ApiOperation({ summary: 'Add artist to favorites by id' })
   @ApiCreatedResponse({
     description: 'Success response',
-    type: FavoritesAddResultDto,
+    type: MessageFieldDto,
   })
   @ApiExceptions({
     entityName: 'Artist',
     statusCodes: [HttpStatus.UNPROCESSABLE_ENTITY, HttpStatus.BAD_REQUEST],
   })
-  async addArtist(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
+  async addArtist(@Param() params: IdFieldDto): Promise<MessageFieldDto> {
     const result = await this.favoritesService.addArtist(params.id);
 
     if (!result) {
       throw new UnprocessableEntityException('Artist not found');
     }
 
-    return plainToInstance(FavoritesAddResultDto, {
+    return plainToInstance(MessageFieldDto, {
       message: 'Artist added to favorites',
     });
   }
@@ -116,20 +118,20 @@ export class FavoritesController {
   @ApiOperation({ summary: 'Add track to favorites by id' })
   @ApiCreatedResponse({
     description: 'Success response',
-    type: FavoritesAddResultDto,
+    type: MessageFieldDto,
   })
   @ApiExceptions({
     entityName: 'Track',
     statusCodes: [HttpStatus.UNPROCESSABLE_ENTITY, HttpStatus.BAD_REQUEST],
   })
-  async addTrack(@Param() params: IdFieldDto): Promise<FavoritesAddResultDto> {
+  async addTrack(@Param() params: IdFieldDto): Promise<MessageFieldDto> {
     const result = await this.favoritesService.addTrack(params.id);
 
     if (!result) {
       throw new UnprocessableEntityException('Track not found');
     }
 
-    return plainToInstance(FavoritesAddResultDto, {
+    return plainToInstance(MessageFieldDto, {
       message: 'Track added to favorites',
     });
   }

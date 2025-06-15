@@ -21,6 +21,7 @@ async function bootstrap() {
     .setDescription('Home music library service')
     .setVersion('1.0.0')
     .addServer(`http://localhost:${port}`)
+    .addBearerAuth()
     .build();
 
   const swaggerDoc = SwaggerModule.createDocument(app, swagger);

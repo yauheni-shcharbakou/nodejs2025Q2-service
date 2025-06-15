@@ -18,6 +18,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { plainToInstance } from 'class-transformer';
+import { Auth } from '../../decorators/auth.decorator';
 import { ApiExceptions } from '../../decorators/swagger.decorator';
 import { AlbumDto } from '../../dto/models/album.dto';
 import { IdFieldDto } from '../../dto/id-field.dto';
@@ -26,6 +27,7 @@ import { AlbumCreateDto } from './dto/album.create.dto';
 
 @ApiTags('Album')
 @Controller('album')
+@Auth()
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
