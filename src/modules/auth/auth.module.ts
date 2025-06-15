@@ -9,7 +9,6 @@ import { USER_REPOSITORY } from '../repository/user/user.repository.constants';
 import { AuthController } from './auth.controller';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './auth.service';
-import { CryptoService } from '../crypto/crypto.service';
 
 @Global()
 @Module({
