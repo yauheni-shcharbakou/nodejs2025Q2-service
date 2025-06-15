@@ -4,16 +4,16 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
+import { IRequest } from '../../interfaces/request.interface';
 import { LoggingService } from './logging.service';
 import { map, Observable } from 'rxjs';
-import { Request } from 'express';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   constructor(private readonly loggingService: LoggingService) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const request: Request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<IRequest>();
     const controller = context.getClass();
 
     request.controller = controller.name;
