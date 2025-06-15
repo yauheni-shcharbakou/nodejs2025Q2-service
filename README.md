@@ -46,10 +46,56 @@ Copy `.env.example` content to `.env` file (and change) for setup environment va
 compose also uses `.env` file for load variables.
 
 - `PORT` backend port value
+
+- `LOG_LEVEL` log level (one of `fatal` | `error` | `warn` | `log` | `debug` | `verbose`)
+- `LOG_MAX_SIZE_KB` max log file size in KB 
+    > It is also important to consider that in MacOS since version 10.6 the finder uses the decimal system, so the file 
+    > size will be displayed there 2.4% larger. For greater accuracy, you should pay attention to the file size in bytes 
+    > (for 100 KB it will be 102400) 
+- `LOG_DIRECTORY` relative path to repository root for store logs
+
+- `CRYPT_SALT` salt value used for hashing
+- `JWT_SECRET_KEY` secret key used for access token
+- `JWT_SECRET_REFRESH_KEY` secret key used for refresh token
+- `TOKEN_EXPIRE_TIME` access token expire time parameter
+- `TOKEN_REFRESH_EXPIRE_TIME` refresh token expire time parameter
+
 - `POSTGRES_PORT` postgres port value
 - `POSTGRES_USER` postgres user name
 - `POSTGRES_PASSWORD` postgres user password
 - `DATABASE_URL` postgres connection url, `postgresql://{{POSTGRES_USER}}:{{POSTGRES_PASSWORD}}@localhost:{{POSTGRES_PORT}}/home-library-service`
+
+## Logging
+
+By default, logs saved at directory `logs` (it can be changed by using `LOG_DIRECTORY` env variable) and separated by
+day timestamp:
+
+```
+/logs
+  /2025-06-14
+    2025-06-14.0.log // ordinary log (warn | log | debug | verbose)
+    2025-06-14.0.error.log // error log file, here are fatal and error levels
+    2025-06-14.1.log
+    2025-06-14.1.error.log
+  /2025-06-15
+    2025-06-14.0.log
+    ...
+```
+
+- `unhandledRejection` and `uncaughtException` implemented as `fatal` level logs
+- errors use `error` level
+- request and response data logged as `debug` level
+
+Here is the priority of levels:
+- `fatal`
+- `error`
+- `warn`
+- `log`
+- `debug`
+- `verbose`
+
+So, for see `debug` logs you need set `debug` or `verbose` level, for see `error` - `error` or anything below in the 
+list, etc. By default, `log` level is set (can be changed via `LOG_LEVEL` env variable)
 
 ## Running application 
 
@@ -124,18 +170,11 @@ npm run docker:push:backend
 
 After application running open new terminal and enter:
 
-### To run only tests for Home Library Service part 1 / 2:
+### To run only tests for Home Library Service part 3:
 
 ```bash
-npm run test -- users.e2e.spec.ts
-npm run test -- tracks.e2e.spec.ts
-npm run test -- artists.e2e.spec.ts
-npm run test -- albums.e2e.spec.ts
-npm run test -- favorites.e2e.spec.ts
-
-// or
-
-npm run test
+npm run test:auth
+npm run test:refresh
 ```
 
 ### To run all tests without authorization
