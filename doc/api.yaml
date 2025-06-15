@@ -27,6 +27,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AlbumDto'
+      security:
+        - bearer: []
       summary: Get all albums
       tags:
         - Album
@@ -58,6 +60,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Create album
       tags:
         - Album
@@ -91,6 +95,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Get album by id
       tags:
         - Album
@@ -129,6 +135,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Update album by id
       tags:
         - Album
@@ -157,6 +165,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Delete album by id
       tags:
         - Album
@@ -173,6 +183,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ArtistDto'
+      security:
+        - bearer: []
       summary: Get all artists
       tags:
         - Artist
@@ -198,6 +210,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Create artist
       tags:
         - Artist
@@ -231,6 +245,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Get artist by id
       tags:
         - Artist
@@ -269,6 +285,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Update artist by id
       tags:
         - Artist
@@ -297,9 +315,101 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Delete artist by id
       tags:
         - Artist
+  /auth/signup:
+    post:
+      operationId: AuthController_signup
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthLoginDto'
+      responses:
+        '201':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponseDto'
+      summary: Sign up
+      tags:
+        - Auth
+  /auth/login:
+    post:
+      operationId: AuthController_login
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthLoginDto'
+      responses:
+        '200':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokensDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponseDto'
+      summary: Login
+      tags:
+        - Auth
+  /auth/refresh:
+    post:
+      operationId: AuthController_refresh
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRefreshDto'
+      responses:
+        '200':
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokensDto'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponseDto'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionResponseDto'
+      summary: Refresh
+      tags:
+        - Auth
   /favs:
     get:
       operationId: FavoritesController_find
@@ -311,6 +421,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FavoritesDto'
+      security:
+        - bearer: []
       summary: Get favorites
       tags:
         - Favorites
@@ -331,7 +443,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FavoritesAddResultDto'
+                $ref: '#/components/schemas/MessageFieldDto'
         '400':
           description: Bad request
           content:
@@ -344,6 +456,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Add album to favorites by id
       tags:
         - Favorites
@@ -372,6 +486,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Delete album from favorites by id
       tags:
         - Favorites
@@ -392,7 +508,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FavoritesAddResultDto'
+                $ref: '#/components/schemas/MessageFieldDto'
         '400':
           description: Bad request
           content:
@@ -405,6 +521,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Add artist to favorites by id
       tags:
         - Favorites
@@ -433,6 +551,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Delete artist from favorites by id
       tags:
         - Favorites
@@ -453,7 +573,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FavoritesAddResultDto'
+                $ref: '#/components/schemas/MessageFieldDto'
         '400':
           description: Bad request
           content:
@@ -466,6 +586,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Add track to favorites by id
       tags:
         - Favorites
@@ -494,6 +616,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Delete track from favorites by id
       tags:
         - Favorites
@@ -510,6 +634,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TrackDto'
+      security:
+        - bearer: []
       summary: Get all tracks
       tags:
         - Track
@@ -541,6 +667,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Create track
       tags:
         - Track
@@ -574,6 +702,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Get track by id
       tags:
         - Track
@@ -612,6 +742,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Update track by id
       tags:
         - Track
@@ -640,6 +772,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Delete track by id
       tags:
         - Track
@@ -656,6 +790,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserDto'
+      security:
+        - bearer: []
       summary: Get all users
       tags:
         - User
@@ -681,6 +817,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Get user by id
       tags:
         - User
@@ -714,6 +852,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Get user by id
       tags:
         - User
@@ -747,7 +887,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
         '403':
-          description: Invalid password
+          description: Forbidden
           content:
             application/json:
               schema:
@@ -758,6 +898,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Update user by id
       tags:
         - User
@@ -786,6 +928,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionResponseDto'
+      security:
+        - bearer: []
       summary: Delete user by id
       tags:
         - User
@@ -796,8 +940,13 @@ info:
   contact: {}
 tags: []
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:4000
 components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
   schemas:
     AlbumDto:
       type: object
@@ -838,6 +987,9 @@ components:
         - 204
         - 205
         - 206
+        - 207
+        - 208
+        - 210
         - 300
         - 301
         - 302
@@ -866,15 +1018,20 @@ components:
         - 418
         - 421
         - 422
+        - 423
         - 424
         - 428
         - 429
+        - 456
         - 500
         - 501
         - 502
         - 503
         - 504
         - 505
+        - 507
+        - 508
+      description: Exception status code
     ExceptionResponseDto:
       type: object
       properties:
@@ -947,6 +1104,64 @@ components:
       required:
         - name
         - grammy
+    AuthLoginDto:
+      type: object
+      properties:
+        login:
+          type: string
+          description: User login
+        password:
+          type: string
+          description: User password
+      required:
+        - login
+        - password
+    UserDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: UUID field
+          format: uuid
+        createdAt:
+          type: number
+          description: User create date timestamp
+        login:
+          type: string
+          description: User login
+        updatedAt:
+          type: number
+          description: User update date timestamp
+        version:
+          type: number
+          description: User entity version
+          format: int32
+      required:
+        - id
+        - createdAt
+        - login
+        - updatedAt
+        - version
+    AuthTokensDto:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: Access token
+        refreshToken:
+          type: string
+          description: Refresh token
+      required:
+        - accessToken
+        - refreshToken
+    AuthRefreshDto:
+      type: object
+      properties:
+        refreshToken:
+          type: string
+          description: Refresh token
+      required:
+        - refreshToken
     TrackDto:
       type: object
       properties:
@@ -995,7 +1210,7 @@ components:
         - artists
         - albums
         - tracks
-    FavoritesAddResultDto:
+    MessageFieldDto:
       type: object
       properties:
         message:
@@ -1025,32 +1240,6 @@ components:
       required:
         - name
         - duration
-    UserDto:
-      type: object
-      properties:
-        id:
-          type: string
-          description: UUID field
-          format: uuid
-        createdAt:
-          type: number
-          description: User create date timestamp
-        login:
-          type: string
-          description: User login
-        updatedAt:
-          type: number
-          description: User update date timestamp
-        version:
-          type: number
-          description: User entity version
-          format: int32
-      required:
-        - id
-        - createdAt
-        - login
-        - updatedAt
-        - version
     UserCreateDto:
       type: object
       properties:
